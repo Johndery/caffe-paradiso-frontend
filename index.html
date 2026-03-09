@@ -937,7 +937,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
         </a>
         <div class="cdi" style="margin-top:.8rem">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <a href="/cdn-cgi/l/email-protection#78101d141417381b191e1e1d08190a191c110b175616011b"><span class="__cf_email__" data-cfemail="19717c757576597a787f7f7c69786b787d706a763777607a">[email&#160;protected]</span></a>
+          <a href="/cdn-cgi/l/email-protection#452d2029292a05262423232035243724212c362a6b2b3c26"><span class="__cf_email__" data-cfemail="2e464b4242416e4d4f48484b5e4f5c4f4a475d410040574d">[email&#160;protected]</span></a>
         </div>
         <div class="cdi">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1044,7 +1044,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
       <h4>Contact</h4>
       <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>202B Elizabeth St, Nolita, NY 10012</div>
       <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+12125550190">(212) 555-0190</a></div>
-      <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="/cdn-cgi/l/email-protection#761e131a1a1936151710101306170417121f051958180f15"><span class="__cf_email__" data-cfemail="3f575a5353507f5c5e59595a4f5e4d5e5b564c501151465c">[email&#160;protected]</span></a></div>
+      <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="/cdn-cgi/l/email-protection#96fef3fafaf9d6f5f7f0f0f3e6f7e4f7f2ffe5f9b8f8eff5"><span class="__cf_email__" data-cfemail="345c5158585b74575552525144554655505d475b1a5a4d57">[email&#160;protected]</span></a></div>
     </div>
   </div>
   <div class="fbot">
@@ -1115,7 +1115,46 @@ document.querySelectorAll('.sp-star').forEach(s=>{
 });
 
 // ── Feedback submit
-function fbDone(){document.getElementById('fbfields').style.display='none';document.getElementById('fbsuc').style.display='block'}
+// ── API URL — points to your Render backend ──────────────────
+const API = 'https://caffe-paradiso-api.onrender.com';
+
+// ── Feedback form — real submission ──────────────────────────
+async function fbDone(){
+  const name     = document.querySelector('#fbfields input[type="text"]').value.trim();
+  const email    = document.querySelector('#fbfields input[type="email"]').value.trim();
+  const item     = document.querySelector('#fbfields select').value;
+  const message  = document.querySelector('#fbfields textarea').value.trim();
+
+  if(!name || !message || rating === 0){
+    alert('Please fill in your name, rating, and message.');
+    return;
+  }
+
+  const btn = document.querySelector('.fsub');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const res  = await fetch(`${API}/api/feedback`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ name, email, itemTried: item, rating, message })
+    });
+    const data = await res.json();
+    if(data.success){
+      document.getElementById('fbfields').style.display='none';
+      document.getElementById('fbsuc').style.display='block';
+    } else {
+      alert(data.message || 'Something went wrong. Please try again.');
+      btn.textContent = 'Submit Feedback →';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    alert('Could not connect. Please try again.');
+    btn.textContent = 'Submit Feedback →';
+    btn.disabled = false;
+  }
+}
 
 // ── Live bookings widget
 [{n:'Marco V.',h:'SoHo',i:'Brown Butter Latte',m:4},{n:'Lena K.',h:'Tribeca',i:'Strawberry Matcha',m:11},{n:'James T.',h:'Nolita',i:'White Choc. Shakerato',m:18},{n:'Priya M.',h:'Williamsburg',i:'Matcha Latte',m:26},{n:'Sam R.',h:'LES',i:'Hot Chocolate',m:39}].forEach((b,i)=>{
