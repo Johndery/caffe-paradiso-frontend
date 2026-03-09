@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caffe Paradiso — Nolita, New York City</title>
+<meta name="description" content="Caffe Paradiso — 202B Elizabeth Street, Nolita. Salted Brown Butter Oat Latte, Matcha, Shakerato, Espresso & more. Mon–Sat 8am–5:30pm.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Caffe Paradiso","address":{"@type":"PostalAddress","streetAddress":"202B Elizabeth Street","addressLocality":"New York","addressRegion":"NY","postalCode":"10012","addressCountry":"US"},"telephone":"+12125550190","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"08:00","closes":"17:30"}],"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.5","reviewCount":"507"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* CRITICAL: never change cursor to pointer on any element */
+*{cursor:default !important}
+html{scroll-behavior:smooth}
+
+:root{
+  --bg:    #FFFAF4;
+  --bg2:   #FFF6EC;
+  --bg3:   #FEF0DC;
+  --esp:   #2C1A0E;
+  --roast: #4A2810;
+  --car:   #B8731A;
+  --gld:   #D4963A;
+  --gld2:  #F0B855;
+  --crm:   #FFF8EF;
+  --mist:  #C0A882;
+  --ink:   #1E1208;
+  --txt:   #3D2410;
+  --sub:   #7A5C42;
+  --bdr:   #E8D8C4;
+  --serif: 'Playfair Display',Georgia,serif;
+  --sans:  'DM Sans',sans-serif;
+}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-weight:300;overflow-x:hidden}
+
+/* ─── CUSTOM DOT CURSOR — never changes ─── */
+#dot{position:fixed;width:11px;height:11px;border-radius:50%;background:var(--car);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply}
+#dotR{position:fixed;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(184,115,26,.38);pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+
+/* ─── BEAN CANVAS ─── */
+#bc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+
+/* ─── HEADER ─── */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:500;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(255,250,244,.93);backdrop-filter:blur(18px);border-bottom:1px solid var(--bdr);transition:box-shadow .3s}
+.hdr.scrolled{box-shadow:0 2px 24px rgba(44,26,14,.08)}
+.logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
+.lm{width:34px;height:34px}
+.lt{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--esp);letter-spacing:.05em}
+.lt em{font-style:italic;color:var(--car)}
+.hnav{display:flex;align-items:center;gap:1.8rem}
+.hnav a{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sub);text-decoration:none;transition:color .2s;font-weight:400}
+.hnav a:hover{color:var(--car)}
+.hbtns{display:flex;align-items:center;gap:.7rem}
+.bor{display:flex;align-items:center;gap:.4rem;padding:.45rem 1rem;border:1.5px solid var(--car);border-radius:3px;color:var(--car);font-family:var(--sans);font-size:.67rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .22s}
+.bor:hover{background:var(--car);color:#fff}
+.bsl{padding:.48rem 1.2rem;background:var(--esp);color:var(--crm);font-family:var(--sans);font-size:.67rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;border:none;border-radius:3px;text-decoration:none;transition:all .22s}
+.bsl:hover{background:var(--roast)}
+.hbg{display:none;flex-direction:column;gap:5px;padding:4px}
+.hbg span{display:block;width:22px;height:1.5px;background:var(--esp);transition:.3s}
+
+/* ─── HERO ─── */
+.hero{position:relative;min-height:100vh;overflow:hidden;background:var(--bg2)}
+.hbg-img{position:absolute;inset:0;z-index:1}
+.hbg-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%;transform:scale(1.05);animation:hz 20s ease-in-out infinite alternate}
+.hbg-img::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,250,244,.95) 38%,rgba(255,246,236,.75) 62%,rgba(255,246,236,.18) 100%)}
+@keyframes hz{from{transform:scale(1.05)}to{transform:scale(1.12) translateX(-1.5%)}}
+
+.hc{position:relative;z-index:10;max-width:680px;padding:clamp(7rem,14vw,11rem) clamp(2rem,7vw,6rem) 5rem}
+.hpill{display:inline-flex;align-items:center;gap:.6rem;padding:.32rem .9rem .32rem .6rem;background:rgba(212,150,58,.1);border:1px solid rgba(212,150,58,.3);border-radius:30px;margin-bottom:1.7rem;animation:fu .8s .1s ease-out both}
+.hdot{width:8px;height:8px;border-radius:50%;background:#5BAD5B;box-shadow:0 0 0 3px rgba(91,173,91,.2);animation:lp 2s infinite}
+@keyframes lp{0%,100%{box-shadow:0 0 0 3px rgba(91,173,91,.2)}50%{box-shadow:0 0 0 6px rgba(91,173,91,.06)}}
+.hpill span{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--car);font-weight:500}
+.hpill .hs{font-size:.8rem;color:var(--gld)}
+.hey{font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--car);margin-bottom:.9rem;font-weight:500;animation:fu .8s .2s ease-out both}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:400;line-height:1.1;color:var(--esp);margin-bottom:1.3rem;animation:fu .8s .35s ease-out both}
+.hero h1 em{font-style:italic;color:var(--car);display:block}
+.hsub{font-size:.95rem;line-height:1.78;color:var(--sub);max-width:440px;margin-bottom:2rem;animation:fu .8s .5s ease-out both}
+.hbtns2{display:flex;flex-wrap:wrap;gap:.85rem;animation:fu .8s .65s ease-out both}
+.bhp{padding:.88rem 2rem;background:var(--esp);color:var(--crm);font-family:var(--sans);font-size:.74rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;border:none;border-radius:3px;text-decoration:none;box-shadow:0 8px 28px rgba(44,26,14,.2);transition:all .22s}
+.bhp:hover{background:var(--roast);transform:translateY(-1px)}
+.bhg{padding:.88rem 1.8rem;border:1.5px solid var(--car);border-radius:3px;color:var(--car);font-family:var(--sans);font-size:.74rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:all .22s}
+.bhg:hover{background:var(--car);color:#fff}
+@keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* Floating drink cards in hero */
+.hdrinks{position:absolute;right:4%;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:1.2rem;animation:fu .8s .9s ease-out both}
+.hdc{width:175px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 10px 32px rgba(44,26,14,.13),0 2px 8px rgba(44,26,14,.07);border:1px solid var(--bdr);animation:fl 4s ease-in-out infinite}
+.hdc:nth-child(2){animation-delay:1.2s;width:160px;margin-left:1rem}
+.hdc:nth-child(3){animation-delay:2.4s;width:168px;margin-left:.4rem}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hdc img{width:100%;height:115px;object-fit:cover;display:block}
+.hdcl{padding:.5rem .75rem;font-size:.68rem;font-weight:500;color:var(--esp)}
+.hdcp{color:var(--car);font-family:var(--serif);font-style:italic;font-size:.84rem;margin-top:.1rem}
+
+.scue{position:absolute;bottom:2rem;left:clamp(2rem,7vw,6rem);z-index:10;display:flex;align-items:center;gap:.55rem;color:var(--mist);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase}
+.scue::before{content:'';display:block;width:26px;height:1px;background:var(--mist)}
+
+/* ─── TRUST BAR ─── */
+.tbar{background:var(--esp);padding:1rem clamp(2rem,6vw,5rem);display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1.8rem;position:relative;z-index:10}
+.ti{display:flex;align-items:center;gap:.55rem;font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,248,239,.62)}
+.ti svg{color:var(--gld2);flex-shrink:0}
+.tsep{width:1px;height:18px;background:rgba(255,248,239,.15)}
+
+/* ─── SHARED SECTION ─── */
+section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
+.slbl{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--car);margin-bottom:.75rem;font-weight:500}
+.stit{font-family:var(--serif);font-size:clamp(1.9rem,4vw,3rem);font-weight:400;line-height:1.15;color:var(--esp);margin-bottom:.9rem}
+.stit em{font-style:italic;color:var(--car)}
+.sbod{font-size:.9rem;line-height:1.82;color:var(--sub)}
+.grl{width:40px;height:2px;background:linear-gradient(to right,var(--car),var(--gld2));border-radius:2px;margin:1.1rem 0}
+
+/* ─── MENU SECTION (FULL FRONT-PAGE FEATURE) ─── */
+.menu-sec{background:var(--bg2)}
+.menu-intro{max-width:1300px;margin:0 auto 1.5rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem}
+
+/* Category tab nav */
+.cat-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem;max-width:1300px;margin-left:auto;margin-right:auto}
+.ctab{padding:.48rem 1.2rem;border:1.5px solid var(--bdr);border-radius:20px;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);background:#fff;transition:all .22s}
+.ctab.active,.ctab:hover{background:var(--esp);color:var(--crm);border-color:var(--esp)}
+
+/* Menu grid */
+.mgrid{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.mc{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--bdr);box-shadow:0 3px 16px rgba(44,26,14,.05);transition:transform .38s cubic-bezier(.25,.8,.25,1),box-shadow .38s;transform-style:preserve-3d}
+.mc:hover{transform:translateY(-8px) scale(1.015);box-shadow:0 16px 40px rgba(44,26,14,.12)}
+.mc-img{width:100%;height:160px;overflow:hidden;position:relative}
+.mc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.mc:hover .mc-img img{transform:scale(1.09)}
+.mc-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,rgba(255,250,244,.85),transparent)}
+.mc-bdg{position:absolute;top:.75rem;left:.75rem;background:var(--esp);color:var(--gld2);font-size:.55rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.2rem .55rem;border-radius:20px;z-index:2}
+.mc-bdg.sig{background:var(--car);color:#fff}
+.mc-bdg.new{background:#2D7A5A;color:#fff}
+.mc-body{padding:1.1rem 1.3rem 1.4rem}
+.mc h3{font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--esp);margin-bottom:.4rem;line-height:1.3}
+.mc p{font-size:.75rem;line-height:1.6;color:var(--sub)}
+.mc-ft{display:flex;align-items:center;justify-content:space-between;margin-top:.9rem;padding-top:.8rem;border-top:1px solid var(--bdr)}
+.mpr{font-family:var(--serif);font-size:1.05rem;color:var(--car);font-style:italic}
+.mtag{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(212,150,58,.1);color:var(--car);padding:.22rem .6rem;border-radius:20px;font-weight:500}
+
+/* Category headings inside grid */
+.cat-head{grid-column:1/-1;padding:.5rem 0 .25rem;border-bottom:2px solid var(--bdr);margin-top:1.5rem}
+.cat-head:first-child{margin-top:0}
+.cat-head h3{font-family:var(--serif);font-size:1.4rem;color:var(--esp);font-style:italic}
+.cat-head span{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-left:.6rem}
+
+/* ─── ABOUT ─── */
+.about-bg{background:var(--bg)}
+.awrap{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(3rem,6vw,8rem);align-items:center}
+.aimgs{position:relative;height:540px}
+.aim{position:absolute;top:0;left:0;right:14%;bottom:14%;border-radius:12px;overflow:hidden;box-shadow:0 20px 54px rgba(44,26,14,.14)}
+.aim img{width:100%;height:100%;object-fit:cover;transition:transform 8s}
+.aim:hover img{transform:scale(1.04)}
+.aia{position:absolute;bottom:0;right:0;width:44%;border-radius:10px;overflow:hidden;border:4px solid var(--bg);box-shadow:0 10px 30px rgba(44,26,14,.12)}
+.aia img{width:100%;height:185px;object-fit:cover}
+.ait{position:absolute;top:1.2rem;left:1.2rem;background:rgba(255,250,244,.92);border:1px solid var(--bdr);backdrop-filter:blur(10px);padding:.5rem 1rem;border-radius:30px;font-family:var(--serif);font-size:.84rem;font-style:italic;color:var(--car)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:2.2rem;padding-top:2rem;border-top:1px solid var(--bdr)}
+.sn{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--car);line-height:1}
+.sl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);margin-top:.2rem}
+
+/* ─── PHOTO STRIP ─── */
+.pstrip{display:grid;grid-template-columns:repeat(4,1fr);height:280px;overflow:hidden}
+.psc{overflow:hidden;position:relative}
+.psc img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform .5s}
+.psc:hover img{transform:scale(1.13)}
+.psc::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(44,26,14,.3) 0%,transparent 55%)}
+.pscl{position:absolute;bottom:.7rem;left:.8rem;font-family:var(--serif);font-style:italic;font-size:.8rem;color:#fff;opacity:.88;z-index:2}
+
+/* ─── REVIEWS ─── */
+.rev-sec{background:linear-gradient(160deg,var(--bg3) 0%,var(--bg2) 100%)}
+.rin{max-width:1300px;margin:0 auto}
+.rtop{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:2rem;margin-bottom:3rem}
+.rblock{display:flex;align-items:center;gap:1.4rem;background:#fff;padding:1.1rem 1.6rem;border-radius:12px;border:1px solid var(--bdr);box-shadow:0 4px 18px rgba(44,26,14,.06)}
+.rn{font-family:var(--serif);font-size:4rem;font-weight:400;color:var(--esp);line-height:1}
+.rstar{font-size:1rem;letter-spacing:.04em}
+.rct{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);margin-top:.2rem}
+
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.rc{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:1.7rem;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(44,26,14,.05);transition:transform .3s,box-shadow .3s}
+.rc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(44,26,14,.1)}
+.rc::before{content:'\201C';font-family:var(--serif);font-size:4.5rem;color:var(--car);opacity:.1;position:absolute;top:-.7rem;left:.9rem;line-height:1}
+.rc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.rc-stars{letter-spacing:.04em}
+.star-full{color:var(--gld)}
+.star-half{color:var(--gld)}
+.star-empty{color:#D8C9B4}
+.rc-src{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);background:var(--bg2);padding:.18rem .55rem;border-radius:10px}
+.rc-txt{font-family:var(--serif);font-size:.95rem;font-weight:400;font-style:italic;line-height:1.7;color:var(--txt);margin-bottom:1.1rem}
+.rc-who{display:flex;align-items:center;gap:.7rem}
+.rc-av{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--bdr)}
+.rc-av img{width:100%;height:100%;object-fit:cover}
+.rc-nm{font-size:.76rem;font-weight:600;color:var(--esp)}
+.rc-mt{font-size:.64rem;color:var(--mist);margin-top:.1rem}
+
+/* live widget */
+.livew{margin-top:2.2rem;display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center}
+.lc{display:flex;align-items:center;gap:.5rem;padding:.45rem 1rem;background:#fff;border:1px solid var(--bdr);border-radius:20px;font-size:.68rem;color:var(--sub);box-shadow:0 2px 8px rgba(44,26,14,.05);animation:cin .5s ease-out both}
+.ld{width:7px;height:7px;border-radius:50%;background:#5BAD5B;box-shadow:0 0 0 3px rgba(91,173,91,.2);animation:lp 2.5s infinite}
+@keyframes cin{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+
+/* ─── PARALLAX QUOTE ─── */
+.pq{height:380px;background:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=80&auto=format&fit=crop') center/cover fixed;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.pq::before{content:'';position:absolute;inset:0;background:rgba(255,245,228,.8)}
+.pq-in{position:relative;z-index:2;max-width:700px;padding:0 2rem}
+.pqt{font-family:var(--serif);font-size:clamp(1.3rem,3vw,2.3rem);font-weight:400;font-style:italic;color:var(--esp);line-height:1.5}
+.pqt em{color:var(--car);font-style:normal;font-weight:500}
+.pqat{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-top:1.1rem}
+
+/* ─── VISIT ─── */
+.vwrap{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.vi{background:var(--bg);padding:clamp(3.5rem,7vw,7rem) clamp(2rem,5vw,5rem)}
+.htbl{margin:1.6rem 0}
+.hrow{display:flex;justify-content:space-between;padding:.58rem 0;border-bottom:1px solid var(--bdr);font-size:.84rem}
+.hday{color:var(--sub)}
+.htm{color:var(--car);font-family:var(--serif);font-style:italic}
+.adrlink{display:flex;align-items:flex-start;gap:.65rem;color:var(--sub);text-decoration:none;font-size:.86rem;line-height:1.7;transition:color .22s;margin-top:1.2rem}
+.adrlink:hover{color:var(--car)}
+.adrlink svg{color:var(--car);flex-shrink:0;margin-top:3px}
+.vbtns{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
+.vmap{position:relative;min-height:420px}
+.vmap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;filter:saturate(.82);transition:filter .3s}
+.vmap:hover iframe{filter:saturate(.98)}
+
+/* ─── CONTACT + FEEDBACK ─── */
+.cont-sec{background:var(--bg2)}
+.cin{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(3rem,6vw,7rem);align-items:start}
+
+/* Contact Info side */
+.call-block{background:#fff;border:1px solid var(--bdr);border-radius:14px;padding:2rem;box-shadow:0 4px 20px rgba(44,26,14,.06);margin-bottom:1.2rem}
+.cb-title{font-family:var(--serif);font-size:1.35rem;color:var(--esp);margin-bottom:1.2rem}
+.cb-phone{display:flex;align-items:center;gap:.75rem;padding:1.2rem;background:var(--bg2);border-radius:10px;border:1px solid var(--bdr);margin-bottom:1rem;text-decoration:none;transition:all .22s}
+.cb-phone:hover{background:var(--esp);border-color:var(--esp)}
+.cb-phone:hover .cbp-num{color:var(--crm)}
+.cb-phone:hover .cbp-lbl{color:rgba(255,248,239,.6)}
+.cb-phone:hover svg{color:var(--gld2)}
+.cbp-ico{width:42px;height:42px;background:var(--esp);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .22s}
+.cb-phone:hover .cbp-ico{background:rgba(255,255,255,.15)}
+.cbp-ico svg{color:var(--gld2)}
+.cbp-lbl{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);transition:color .22s}
+.cbp-num{font-family:var(--serif);font-size:1.2rem;color:var(--esp);font-weight:500;transition:color .22s}
+
+.cdi{display:flex;align-items:flex-start;gap:.7rem;font-size:.85rem;color:var(--sub);margin-bottom:.8rem}
+.cdi svg{color:var(--car);flex-shrink:0;margin-top:2px}
+.cdi a{color:var(--sub);text-decoration:none;transition:color .22s}
+.cdi a:hover{color:var(--car)}
+
+/* Feedback form */
+.fb-box{background:#fff;border:1px solid var(--bdr);border-radius:14px;padding:2.2rem;box-shadow:0 6px 30px rgba(44,26,14,.07)}
+.fb-t{font-family:var(--serif);font-size:1.6rem;color:var(--esp);margin-bottom:.3rem}
+.fb-s{font-size:.78rem;color:var(--mist);margin-bottom:1.6rem}
+.ff{margin-bottom:.85rem}
+.ff label{display:block;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mist);margin-bottom:.3rem;font-weight:500}
+.ff input,.ff select,.ff textarea{width:100%;padding:.7rem 1rem;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;color:var(--txt);font-family:var(--sans);font-size:.84rem;font-weight:300;outline:none;transition:border-color .22s;appearance:none}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--car);background:#fff}
+.ff input::placeholder,.ff textarea::placeholder{color:var(--mist)}
+.ff textarea{resize:vertical;min-height:95px}
+.ff select option{background:#fff}
+
+/* Star picker */
+.star-pick{display:flex;gap:.4rem;margin-top:.3rem}
+.sp-star{font-size:1.5rem;color:#D8C9B4;transition:color .18s;line-height:1}
+.sp-star.on{color:var(--gld)}
+
+.fsub{width:100%;padding:.88rem;background:var(--esp);color:var(--crm);font-family:var(--sans);font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;border:none;border-radius:4px;margin-top:.4rem;transition:background .22s}
+.fsub:hover{background:var(--roast)}
+.fbsuc{display:none;text-align:center;padding:2.5rem 0}
+.fbsuc-ic{font-size:2.5rem;margin-bottom:.8rem}
+.fbsuc h4{font-family:var(--serif);font-size:1.35rem;font-style:italic;color:var(--esp)}
+.fbsuc p{font-size:.8rem;color:var(--mist);margin-top:.4rem}
+
+/* ─── FOOTER ─── */
+.ft{background:var(--esp);padding:clamp(3rem,5vw,5rem) clamp(1.5rem,5vw,5rem) 2rem}
+.ftin{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,248,239,.1)}
+.flt{font-family:var(--serif);font-size:1.25rem;font-weight:500;color:var(--crm);letter-spacing:.05em;margin-bottom:1rem;display:block}
+.flt em{font-style:italic;color:var(--gld2)}
+.ftag{font-family:var(--serif);font-style:italic;font-size:.88rem;color:rgba(255,248,239,.5);line-height:1.7;margin-bottom:1.5rem}
+.socs{display:flex;gap:.65rem}
+.soc{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,248,239,.18);display:flex;align-items:center;justify-content:center;color:rgba(255,248,239,.5);text-decoration:none;font-size:.7rem;font-weight:500;transition:all .22s}
+.soc:hover{border-color:var(--gld2);color:var(--gld2);background:rgba(255,248,239,.08)}
+.fc h4{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gld2);margin-bottom:1rem}
+.fc ul{list-style:none}
+.fc ul li{margin-bottom:.5rem}
+.fc ul li a{font-size:.8rem;color:rgba(255,248,239,.5);text-decoration:none;transition:color .22s}
+.fc ul li a:hover{color:var(--gld2)}
+.fci{display:flex;align-items:flex-start;gap:.55rem;font-size:.8rem;color:rgba(255,248,239,.5);margin-bottom:.65rem}
+.fci svg{color:var(--gld2);flex-shrink:0;margin-top:2px}
+.fci a{color:rgba(255,248,239,.5);text-decoration:none;transition:color .22s}
+.fci a:hover{color:var(--gld2)}
+.fbot{max-width:1300px;margin:1.5rem auto 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;font-size:.67rem;color:rgba(255,248,239,.25);letter-spacing:.06em}
+
+/* ─── MOBILE BAR ─── */
+.mob{display:none;position:fixed;bottom:0;left:0;right:0;z-index:600;background:rgba(255,250,244,.96);border-top:1px solid var(--bdr);padding:.65rem 1.2rem;gap:.7rem;box-shadow:0 -4px 20px rgba(44,26,14,.07)}
+.mob a{flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.8rem;border-radius:4px;font-family:var(--sans);font-size:.67rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+.mob-call{background:var(--esp);color:var(--crm)}
+.mob-fb{background:transparent;border:1.5px solid var(--car);color:var(--car)}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .78s ease-out,transform .78s ease-out}
+.rv.in{opacity:1;transform:translateY(0)}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1200px){.mgrid{grid-template-columns:repeat(3,1fr)}.rgrid{grid-template-columns:repeat(2,1fr)}.awrap{grid-template-columns:1fr}.aimgs{height:340px;order:-1}.aia,.ait{display:none}.ftin{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.mgrid{grid-template-columns:repeat(2,1fr)}.vwrap{grid-template-columns:1fr}.vmap{min-height:280px;height:280px;position:relative}.cin{grid-template-columns:1fr}.pstrip{grid-template-columns:1fr 1fr;height:220px}.hdrinks{display:none}}
+@media(max-width:600px){.hnav{display:none}.hnav.open{display:flex;flex-direction:column;position:fixed;inset:0;top:72px;background:rgba(255,250,244,.98);padding:3rem 2rem;gap:2rem;z-index:499;align-items:flex-start}.hnav.open a{font-size:1.1rem;color:var(--esp)}.hbg{display:flex}.mob{display:flex}.mgrid{grid-template-columns:1fr 1fr}.rgrid{grid-template-columns:1fr}.ftin{grid-template-columns:1fr}.pstrip{grid-template-columns:1fr 1fr;height:180px}.cat-tabs{gap:.4rem}body{padding-bottom:80px}#dot,#dotR{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Dot cursor — never changes shape or style -->
+<div id="dot"></div>
+<div id="dotR"></div>
+<canvas id="bc"></canvas>
+
+<!-- ═══ HEADER ══════════════════════════════════════════════════ -->
+<header class="hdr" id="hdr">
+  <a href="#" class="logo">
+    <svg class="lm" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="28" fill="#FFF8EF" stroke="#E8D8C4" stroke-width="1.5"/>
+      <ellipse cx="30" cy="30" rx="15" ry="9.5" fill="#D4963A" opacity=".9"/>
+      <path d="M15 30 C20 20 40 40 45 30" stroke="#2C1A0E" stroke-width="2" fill="none"/>
+      <path d="M26 19 C26 15 34 15 34 19" stroke="#D4963A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="lt">Caffe <em>Paradiso</em></span>
+  </a>
+  <nav class="hnav" id="hNav">
+    <a href="#menu">Menu</a>
+    <a href="#about">Story</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#visit">Visit</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hbtns">
+    <a href="tel:+12125550190" class="bor">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      (212) 555-0190
+    </a>
+    <a href="#contact" class="bsl">Leave Feedback</a>
+    <div class="hbg" id="hbg" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<!-- ═══ HERO ════════════════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="hbg-img">
+    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1800&q=90&auto=format&fit=crop" alt="Caffe Paradiso — 202B Elizabeth Street, Nolita NYC"/>
+  </div>
+  <div class="hc">
+    <div class="hpill">
+      <div class="hdot"></div>
+      <span class="hs">★★★★½</span>
+      <span>4.5 · 507 Reviews · Open Now</span>
+    </div>
+    <p class="hey">202B Elizabeth Street · Nolita, New York · Est. 2023</p>
+    <h1>Caffe Paradiso<br><em>The Gold Standard<br>in New York.</em></h1>
+    <p class="hsub">Where Italian craftsmanship meets New York soul. Home of the <strong style="color:var(--car)">Salted Brown Butter Oat Latte on tap</strong> — and a full menu of drinks worth every minute of the wait.</p>
+    <div class="hbtns2">
+      <a href="#menu" class="bhp">See Full Menu ↓</a>
+      <a href="tel:+12125550190" class="bhg">Call Us Now</a>
+    </div>
+  </div>
+  <!-- Floating drink cards -->
+  <div class="hdrinks">
+    <div class="hdc">
+      <img src="https://images.unsplash.com/photo-1572286258217-40f1e5a8b09a?w=400&q=85&auto=format&fit=crop" alt="Brown Butter Latte"/>
+      <div class="hdcl">Brown Butter Latte<div class="hdcp">$7</div></div>
+    </div>
+    <div class="hdc">
+      <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&q=85&auto=format&fit=crop" alt="Strawberry Matcha"/>
+      <div class="hdcl">Strawberry Matcha<div class="hdcp">$9.50</div></div>
+    </div>
+    <div class="hdc">
+      <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=85&auto=format&fit=crop" alt="Cream Top"/>
+      <div class="hdcl">Paradiso Cream Top<div class="hdcp">$6.50</div></div>
+    </div>
+  </div>
+  <div class="scue">Scroll to explore</div>
+</section>
+
+<!-- ═══ TRUST BAR ════════════════════════════════════════════════ -->
+<div class="tbar">
+  <div class="ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>#1 Specialty Coffee — Nolita 2024</div>
+  <div class="tsep"></div>
+  <div class="ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Mon – Sat · 8:00 AM – 5:30 PM</div>
+  <div class="tsep"></div>
+  <div class="ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>202B Elizabeth St · Nolita, NY</div>
+  <div class="tsep"></div>
+  <div class="ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>(212) 555-0190</div>
+</div>
+
+<!-- ═══ FULL MENU — FRONT PAGE FEATURE ══════════════════════════ -->
+<section id="menu" class="menu-sec">
+  <div class="menu-intro rv">
+    <div>
+      <p class="slbl">Our Full Menu</p>
+      <h2 class="stit">Everything we <em>craft</em></h2>
+      <div class="grl"></div>
+      <p class="sbod" style="max-width:480px">Every drink made to order. Every ingredient chosen with care. Here's exactly what's waiting for you at the bar.</p>
+    </div>
+  </div>
+
+  <div class="mgrid">
+
+    <!-- ── SIGNATURE DRINKS ── -->
+    <div class="cat-head">
+      <h3>Signature Drinks <span>On tap &amp; made to order</span></h3>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <div class="mc-bdg sig">★ Our Star</div>
+        <img src="https://images.unsplash.com/photo-1572286258217-40f1e5a8b09a?w=600&q=85&auto=format&fit=crop" alt="Salted Brown Butter Oat Latte" loading="lazy"/>
+        <div class="mc-img::after"></div>
+      </div>
+      <div class="mc-body">
+        <h3>Salted Brown Butter Oat Latte</h3>
+        <p>Our legendary tap latte — rich, nutty, perfectly balanced. Creamy foam top. The drink that started the line around the block.</p>
+        <div class="mc-ft"><span class="mpr">$7</span><span class="mtag">On Tap</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=85&auto=format&fit=crop" alt="Paradiso Cream Top" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Paradiso Cream Top</h3>
+        <p>Iced americano with thick cream that sinks as you sip it. Suspended elegance in every glass.</p>
+        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d2">
+      <div class="mc-img">
+        <div class="mc-bdg new">New</div>
+        <img src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600&q=85&auto=format&fit=crop" alt="White Chocolate Shakerato" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>White Chocolate Shakerato</h3>
+        <p>Whipped espresso with shaved white chocolate. Photo-worthy by design — unforgettable by taste.</p>
+        <div class="mc-ft"><span class="mpr">$7.50</span><span class="mtag">Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d3">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=85&auto=format&fit=crop" alt="The Magic Cortado" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>The Magic (Cortado)</h3>
+        <p>Equal parts ristretto and steamed milk. Small in size, enormous in character. Pure espresso philosophy.</p>
+        <div class="mc-ft"><span class="mpr">$5</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <!-- ── ESPRESSO BAR ── -->
+    <div class="cat-head">
+      <h3>Espresso Bar <span>Classic &amp; crafted</span></h3>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600&q=85&auto=format&fit=crop" alt="Espresso" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Espresso</h3>
+        <p>A perfect double shot — bold, syrupy, and aromatic. The foundation of everything we do here.</p>
+        <div class="mc-ft"><span class="mpr">$4</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1504630083234-14187a9df0f5?w=600&q=85&auto=format&fit=crop" alt="Macchiato" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Macchiato</h3>
+        <p>Espresso marked with a dollop of foamy milk. Sharp, strong, and beautifully simple.</p>
+        <div class="mc-ft"><span class="mpr">$4.25</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d2">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?w=600&q=85&auto=format&fit=crop" alt="Americano" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Americano</h3>
+        <p>Espresso diluted with hot water for a long, clean finish. Hot or iced — both excellent.</p>
+        <div class="mc-ft"><span class="mpr">$4.25</span><span class="mtag">Hot / Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d3">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=85&auto=format&fit=crop" alt="Cappuccino" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Cappuccino</h3>
+        <p>Espresso topped with a thick crown of steamed and velvety milk foam. A classic done right.</p>
+        <div class="mc-ft"><span class="mpr">$5</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=85&auto=format&fit=crop" alt="Latte" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Latte</h3>
+        <p>Smooth espresso with steamed milk. Add caramel, hazelnut, or vanilla (+$0.45). Hot or iced.</p>
+        <div class="mc-ft"><span class="mpr">$6</span><span class="mtag">Hot / Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=600&q=85&auto=format&fit=crop" alt="Mocha Latte" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Mocha Latte</h3>
+        <p>Espresso, chocolate, and steamed milk in perfect harmony. Rich, warming, and deeply satisfying.</p>
+        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Hot / Iced</span></div>
+      </div>
+    </div>
+
+    <!-- ── SPECIALTY ICED ── -->
+    <div class="cat-head">
+      <h3>Specialty Iced <span>Cold &amp; crafted</span></h3>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=85&auto=format&fit=crop" alt="Strawberry Coconut Matcha" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <div class="mc-bdg sig">Fan Fave</div>
+        <h3>Strawberry &amp; Coconut Matcha</h3>
+        <p>Ceremonial matcha with fresh strawberry and coconut milk. Vibrant, layered, and dangerously drinkable.</p>
+        <div class="mc-ft"><span class="mpr">$9.50</span><span class="mtag">Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=85&auto=format&fit=crop" alt="Caramel Espresso Mousse" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Caramel &amp; Espresso Mousse</h3>
+        <p>Silky caramel and airy espresso mousse over ice. Indulgent, rich, and Instagram-ready.</p>
+        <div class="mc-ft"><span class="mpr">$9.50</span><span class="mtag">Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d2">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1622484212850-eb596d769edc?w=600&q=85&auto=format&fit=crop" alt="Iced Chai Latte" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Iced Chai Latte</h3>
+        <p>Spiced tea concentrate blended with cold milk over ice. Warm spices, cool sip. A crowd favorite.</p>
+        <div class="mc-ft"><span class="mpr">$7.50</span><span class="mtag">Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d3">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=85&auto=format&fit=crop" alt="Cold Brew" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Cold Brew Iced Coffee</h3>
+        <p>Brooklyn Roasting Co. cold brew — steeped 18 hours for a smooth, full-bodied coffee without the bitterness.</p>
+        <div class="mc-ft"><span class="mpr">$6</span><span class="mtag">Iced</span></div>
+      </div>
+    </div>
+
+    <!-- ── MATCHA & TEA ── -->
+    <div class="cat-head">
+      <h3>Matcha &amp; Tea <span>Ceremonial grade · hand-selected</span></h3>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=600&q=85&auto=format&fit=crop" alt="Matcha Latte" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Matcha Latte</h3>
+        <p>Ceremonial-grade matcha whisked with steamed milk of your choice. Earthy, calming, and beautifully green.</p>
+        <div class="mc-ft"><span class="mpr">$8.50</span><span class="mtag">Hot / Iced</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=85&auto=format&fit=crop" alt="London Fog" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>London Fog</h3>
+        <p>Earl grey tea with steamed milk and a touch of vanilla. Delicate, floral, and wonderfully comforting.</p>
+        <div class="mc-ft"><span class="mpr">$4.75</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d2">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=85&auto=format&fit=crop" alt="Hot Tea" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Hot Tea</h3>
+        <p>Sencha Green, Mint, English Breakfast, Earl Grey, Ceylon Mango Decaf, or Chamomile. Brewed to perfection.</p>
+        <div class="mc-ft"><span class="mpr">$4.50</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d3">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1567922045116-2a00fae2ed03?w=600&q=85&auto=format&fit=crop" alt="Iced Tea" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Iced Tea</h3>
+        <p>Pure Black or Decaf Lemon &amp; Ginger Mint over ice. Refreshing and light with every sip.</p>
+        <div class="mc-ft"><span class="mpr">$4.50</span><span class="mtag">Iced</span></div>
+      </div>
+    </div>
+
+    <!-- ── HOT SPECIALS ── -->
+    <div class="cat-head">
+      <h3>Hot Specials <span>Seasonal &amp; warming</span></h3>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <div class="mc-bdg new">Must Try</div>
+        <img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=600&q=85&auto=format&fit=crop" alt="Hot Chocolate" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Hot Chocolate</h3>
+        <p>Dark chocolate ganache, cinnamon, vanilla, marshmallow. Rich, thick, and completely irresistible. "The hot cocoa looks insane!"</p>
+        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=85&auto=format&fit=crop" alt="Drip Coffee" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Drip Coffee</h3>
+        <p>Brooklyn Roasting Co. single-origin drip. Clean, bright, and beautifully roasted — the no-frills classic done exceptionally.</p>
+        <div class="mc-ft"><span class="mpr">$4.50</span><span class="mtag">Hot</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d2">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=85&auto=format&fit=crop" alt="Hot Apple Cider" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Hot Apple Cider &amp; Cream</h3>
+        <p>Organic cider, pumpkin pie spice, whipped cream, and nutmeg. Pure autumn in a cup.</p>
+        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Seasonal</span></div>
+      </div>
+    </div>
+
+    <!-- ── FRESH JUICES ── -->
+    <div class="cat-head">
+      <h3>Fresh-Pressed Juices <span>Cold-pressed daily</span></h3>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=85&auto=format&fit=crop" alt="Greens Juice" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Greens Juice</h3>
+        <p>Cucumber, Celery, Lemon. Crisp, clean, and genuinely refreshing — not a drop of compromise.</p>
+        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=600&q=85&auto=format&fit=crop" alt="Avocado Greens" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Avocado Greens</h3>
+        <p>Apple, Celery, Cucumber, Banana, Avocado, Spinach, Lemon, Kale, Spirulina, Matcha. The green machine.</p>
+        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d2">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1630450202872-e0829c9d6172?w=600&q=85&auto=format&fit=crop" alt="Roots with Ginger" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Roots with Ginger</h3>
+        <p>Apple, Lemon, Ginger, Beet. Earthy-sweet with a warming ginger kick — vivid magenta in your glass.</p>
+        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d3">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&q=85&auto=format&fit=crop" alt="Mango Turmeric Lemon" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Mango Turmeric Lemon</h3>
+        <p>Mango, Lemon, Monk Fruit, Turmeric. Tropical, bright, anti-inflammatory, and strikingly golden.</p>
+        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
+      </div>
+    </div>
+
+    <!-- ── PASTRIES ── -->
+    <div class="cat-head">
+      <h3>Pastries &amp; Bites <span>Fresh daily from local bakeries</span></h3>
+    </div>
+
+    <div class="mc rv">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=85&auto=format&fit=crop" alt="Butter Croissant" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Butter Croissant</h3>
+        <p>Flaky, buttery, golden-brown perfection. Pairs beautifully with any espresso drink on our menu.</p>
+        <div class="mc-ft"><span class="mpr">$4</span><span class="mtag">Daily Fresh</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d1">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=85&auto=format&fit=crop" alt="Seasonal Cookie" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Seasonal Cookie</h3>
+        <p>Double chocolate chip &amp; sea salt, peanut butter, cranberry oatmeal, or black and white. Rotating daily.</p>
+        <div class="mc-ft"><span class="mpr">$3.50</span><span class="mtag">Rotating</span></div>
+      </div>
+    </div>
+
+    <div class="mc rv d2">
+      <div class="mc-img">
+        <img src="https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=600&q=85&auto=format&fit=crop" alt="Baguette Sandwich" loading="lazy"/>
+      </div>
+      <div class="mc-body">
+        <h3>Baguette Sandwich</h3>
+        <p>Fresh baguette with rotating daily fillings — locally sourced, generously filled. "Honestly very good baguette sandwiches."</p>
+        <div class="mc-ft"><span class="mpr">From $8</span><span class="mtag">Daily Fresh</span></div>
+      </div>
+    </div>
+
+  </div><!-- /mgrid -->
+</section>
+
+<!-- ═══ ABOUT ══════════════════════════════════════════════════ -->
+<section id="about" class="about-bg">
+  <div class="awrap">
+    <div class="aimgs rv">
+      <div class="aim">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&q=88&auto=format&fit=crop" alt="Caffe Paradiso interior — green onyx bar, Nolita NYC" loading="lazy"/>
+      </div>
+      <div class="aia">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80&auto=format&fit=crop" alt="Barista at work" loading="lazy"/>
+      </div>
+      <div class="ait">"Worth every minute of the wait."</div>
+    </div>
+    <div class="rv d2">
+      <p class="slbl">Our Story</p>
+      <h2 class="stit">A hidden gem on<br><em>Elizabeth Street</em></h2>
+      <div class="grl"></div>
+      <p class="sbod">Born from the team behind Dante — one of NYC's most beloved bars — Caffe Paradiso brings that same obsessive craft to coffee. Behind a <strong style="color:var(--car)">custom green onyx stone bar</strong>, we serve drinks that feel like small acts of devotion.</p>
+      <p class="sbod" style="margin-top:.9rem">A few bar seats. A park across the street. And the best latte you'll ever have. <em>Dreamers welcome.</em></p>
+      <div class="stats">
+        <div><div class="sn">500+</div><div class="sl">Reviews</div></div>
+        <div><div class="sn">Tap</div><div class="sl">Draft Lattes</div></div>
+        <div><div class="sn">Daily</div><div class="sl">Fresh Batches</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PHOTO STRIP ════════════════════════════════════════════ -->
+<div class="pstrip">
+  <div class="psc rv"><img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80&auto=format&fit=crop" alt="Coffee bar" loading="lazy" class="psi"/><div class="pscl">Our Bar</div></div>
+  <div class="psc rv d1"><img src="https://images.unsplash.com/photo-1572286258217-40f1e5a8b09a?w=600&q=80&auto=format&fit=crop" alt="Signature latte" loading="lazy" class="psi"/><div class="pscl">Signature Latte</div></div>
+  <div class="psc rv d2"><img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80&auto=format&fit=crop" alt="Matcha" loading="lazy" class="psi"/><div class="pscl">Strawberry Matcha</div></div>
+  <div class="psc rv d3"><img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=80&auto=format&fit=crop" alt="Espresso" loading="lazy" class="psi"/><div class="pscl">The Craft</div></div>
+</div>
+
+<!-- ═══ REVIEWS — MIXED RATINGS ═════════════════════════════════ -->
+<section id="reviews" class="rev-sec">
+  <div class="rin">
+    <div class="rtop rv">
+      <div>
+        <p class="slbl">Real Customer Reviews</p>
+        <h2 class="stit">What people are <em>saying</em></h2>
+        <div class="grl"></div>
+        <p class="sbod" style="max-width:440px">Authentic reviews from Google Maps — the good, the great, and the honest.</p>
+      </div>
+      <div class="rblock">
+        <div class="rn">4.5</div>
+        <div>
+          <div class="rstar"><span class="star-full">★★★★</span><span class="star-half">★</span></div>
+          <div class="rct">507 Reviews · Google Maps</div>
+          <div class="rct" style="margin-top:.15rem">Yelp · TripAdvisor · The Infatuation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rgrid">
+
+      <!-- 5 star -->
+      <div class="rc rv">
+        <div class="rc-top">
+          <div class="rc-stars"><span class="star-full">★★★★★</span> <span style="font-size:.72rem;color:var(--sub)">5.0</span></div>
+          <span class="rc-src">Google Maps</span>
+        </div>
+        <p class="rc-txt">"The Salted Brown Butter Oat Latte was absolutely incredible — rich, smooth, perfectly balanced. There's just isn't another chilled cup of coffee better in NYC. Rich, salty, creamy, chilled, powerful, on tap… that finishing touch right before they pull the tap is money."</p>
+        <div class="rc-who"><div class="rc-av"><img src="https://i.pravatar.cc/80?img=5" alt=""/></div><div><div class="rc-nm">Sarah M.</div><div class="rc-mt">Nolita resident · Regular</div></div></div>
+      </div>
+
+      <!-- 4 star -->
+      <div class="rc rv d1">
+        <div class="rc-top">
+          <div class="rc-stars"><span class="star-full">★★★★</span><span class="star-empty">★</span> <span style="font-size:.72rem;color:var(--sub)">4.0</span></div>
+          <span class="rc-src">Google Maps</span>
+        </div>
+        <p class="rc-txt">"Good spot to grab coffee to go and sit in the garden across the street. I came here for the salted brown butter latte — it was good but a tad sweet for me. The shop is cute but no tables. Worth stopping in on a weekday when there's no line."</p>
+        <div class="rc-who"><div class="rc-av"><img src="https://i.pravatar.cc/80?img=32" alt=""/></div><div><div class="rc-nm">Stephanie L.</div><div class="rc-mt">Manhattan · Google Review</div></div></div>
+      </div>
+
+      <!-- 5 star -->
+      <div class="rc rv d2">
+        <div class="rc-top">
+          <div class="rc-stars"><span class="star-full">★★★★★</span> <span style="font-size:.72rem;color:var(--sub)">5.0</span></div>
+          <span class="rc-src">Yelp</span>
+        </div>
+        <p class="rc-txt">"My husband and I waited 30 minutes — absolutely worth it. I got the Salted Brown Butter Oat Latte and did not disappoint. We grabbed bar seats as people left. Service so warm, Sam even gave my husband another cortado. We'll definitely be back next time we're in the city."</p>
+        <div class="rc-who"><div class="rc-av"><img src="https://i.pravatar.cc/80?img=47" alt=""/></div><div><div class="rc-nm">Maria T.</div><div class="rc-mt">Upper East Side · Yelp Review</div></div></div>
+      </div>
+
+      <!-- 4.5 star -->
+      <div class="rc rv">
+        <div class="rc-top">
+          <div class="rc-stars"><span class="star-full">★★★★</span><span class="star-half" style="font-size:.9rem">½</span> <span style="font-size:.72rem;color:var(--sub)">4.5</span></div>
+          <span class="rc-src">Google Maps</span>
+        </div>
+        <p class="rc-txt">"The oat latte on tap is divineeeee. Expect a little bit of a line even on a weekday but it's so worth it. Service is so friendly and there are a few bar seats. Super smooth and creamy drink — just wish it was bigger for the price."</p>
+        <div class="rc-who"><div class="rc-av"><img src="https://i.pravatar.cc/80?img=21" alt=""/></div><div><div class="rc-nm">Priya K.</div><div class="rc-mt">Midtown · Visited twice</div></div></div>
+      </div>
+
+      <!-- 4 star -->
+      <div class="rc rv d1">
+        <div class="rc-top">
+          <div class="rc-stars"><span class="star-full">★★★★</span><span class="star-empty">★</span> <span style="font-size:.72rem;color:var(--sub)">4.0</span></div>
+          <span class="rc-src">The Infatuation</span>
+        </div>
+        <p class="rc-txt">"Their signature drinks have bells and whistles — a foam-top here, some shaved chocolate there — but except for a matcha with a little too much strawberry syrup, they're never too sweet or over-the-top. The Paradiso Cream Top and White Chocolate Shakerato are both excellent."</p>
+        <div class="rc-who"><div class="rc-av"><img src="https://i.pravatar.cc/80?img=60" alt=""/></div><div><div class="rc-nm">Willa Moore</div><div class="rc-mt">The Infatuation · NYC</div></div></div>
+      </div>
+
+      <!-- 5 star -->
+      <div class="rc rv d2">
+        <div class="rc-top">
+          <div class="rc-stars"><span class="star-full">★★★★★</span> <span style="font-size:.72rem;color:var(--sub)">5.0</span></div>
+          <span class="rc-src">Google Maps</span>
+        </div>
+        <p class="rc-txt">"I tried the oat latte on tap — smooth and perfectly balanced — plus a hot chocolate and piña colada matcha. Both so unique and delicious. Everything felt thoughtfully made and super cozy. Definitely a spot I'd brave the weather for again!"</p>
+        <div class="rc-who"><div class="rc-av"><img src="https://i.pravatar.cc/80?img=12" alt=""/></div><div><div class="rc-nm">Jake R.</div><div class="rc-mt">Chicago visitor · Google Maps</div></div></div>
+      </div>
+
+    </div><!-- /rgrid -->
+
+    <div class="livew rv" id="livew"></div>
+  </div>
+</section>
+
+<!-- ═══ PARALLAX QUOTE ═══════════════════════════════════════════ -->
+<div class="pq">
+  <div class="pq-in">
+    <p class="pqt">"Coffee cart doing draft lattes that somehow justify the TikTok lines. Small menu, quick service. The salted brown butter oat latte on tap — <em>rich without being cloying.</em>"</p>
+    <p class="pqat">— Corner.inc, New York City Guide</p>
+  </div>
+</div>
+
+<!-- ═══ VISIT ════════════════════════════════════════════════════ -->
+<section id="visit" style="padding:0">
+  <div class="vwrap">
+    <div class="vi rv">
+      <p class="slbl">Find Us</p>
+      <h2 class="stit">Come <em>visit</em></h2>
+      <div class="grl"></div>
+      <div class="htbl">
+        <div class="hrow"><span class="hday">Monday</span><span class="htm">8:00 AM – 5:30 PM</span></div>
+        <div class="hrow"><span class="hday">Tuesday</span><span class="htm">8:00 AM – 5:30 PM</span></div>
+        <div class="hrow"><span class="hday">Wednesday</span><span class="htm">8:00 AM – 5:30 PM</span></div>
+        <div class="hrow"><span class="hday">Thursday</span><span class="htm">8:00 AM – 5:30 PM</span></div>
+        <div class="hrow"><span class="hday">Friday</span><span class="htm">8:00 AM – 5:30 PM</span></div>
+        <div class="hrow"><span class="hday">Saturday</span><span class="htm">8:00 AM – 5:30 PM</span></div>
+        <div class="hrow" style="border:none"><span class="hday" style="color:var(--mist);font-style:italic">Sunday</span><span class="htm" style="color:var(--mist)">Closed</span></div>
+      </div>
+      <a href="https://maps.google.com/?q=202B+Elizabeth+Street+New+York+NY" target="_blank" rel="noopener" class="adrlink">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        202B Elizabeth Street<br>Nolita, New York, NY 10012<br><span style="color:var(--car);font-size:.78rem">Near Elizabeth Street Garden →</span>
+      </a>
+      <div class="vbtns">
+        <a href="tel:+12125550190" class="bsl" style="padding:.75rem 1.5rem">Call (212) 555-0190</a>
+        <a href="https://maps.google.com/?q=Caffe+Paradiso+202B+Elizabeth+Street" target="_blank" rel="noopener" class="bor" style="padding:.75rem 1.4rem">Get Directions</a>
+      </div>
+    </div>
+    <div class="vmap">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2784965631556!2d-73.9965063!3d40.722003799999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2590052381d25%3A0x3214117350af8674!2sCaffe+Paradiso!5e0!3m2!1sen!2sus!4v1700000000000" title="Caffe Paradiso map" loading="lazy" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT + FEEDBACK ════════════════════════════════════════ -->
+<section id="contact" class="cont-sec">
+  <div class="cin">
+    <!-- Left: contact info -->
+    <div class="rv">
+      <p class="slbl">Get in Touch</p>
+      <h2 class="stit">Call us or<br><em>drop us a note</em></h2>
+      <div class="grl"></div>
+      <p class="sbod" style="margin-bottom:1.8rem">No reservations needed — we're walk-in only. But if you have a question, a catering enquiry, or just want to say hello, we'd love to hear from you.</p>
+
+      <div class="call-block">
+        <div class="cb-title">Give us a call</div>
+        <a href="tel:+12125550190" class="cb-phone">
+          <div class="cbp-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="cbp-lbl">Tap to call · Mon – Sat · 8am – 5:30pm</div>
+            <div class="cbp-num">(212) 555-0190</div>
+          </div>
+        </a>
+        <div class="cdi" style="margin-top:.8rem">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="/cdn-cgi/l/email-protection#78101d141417381b191e1e1d08190a191c110b175616011b"><span class="__cf_email__" data-cfemail="19717c757576597a787f7f7c69786b787d706a763777607a">[email&#160;protected]</span></a>
+        </div>
+        <div class="cdi">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>202B Elizabeth St, Nolita, NY 10012</span>
+        </div>
+        <div class="cdi">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Sat &nbsp;·&nbsp; 8:00 AM – 5:30 PM &nbsp;·&nbsp; <strong style="color:var(--car)">Walk-ins only</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: feedback form -->
+    <div class="fb-box rv d2">
+      <div id="fbsuc" class="fbsuc">
+        <div class="fbsuc-ic">☕</div>
+        <h4>Thank you for your feedback!</h4>
+        <p>We read every message. See you at the bar soon.</p>
+      </div>
+      <div id="fbfields">
+        <h3 class="fb-t">Share your feedback</h3>
+        <p class="fb-s">Loved your visit? Had a suggestion? We want to hear it. ❤️</p>
+
+        <div class="ff">
+          <label>Your Name</label>
+          <input type="text" placeholder="e.g. Alex Rivera" />
+        </div>
+        <div class="ff">
+          <label>Email (optional)</label>
+          <input type="email" placeholder="we'll only reply if you'd like" />
+        </div>
+        <div class="ff">
+          <label>What did you try?</label>
+          <select>
+            <option value="" disabled selected>Select a drink / item</option>
+            <option>Salted Brown Butter Oat Latte</option>
+            <option>Paradiso Cream Top</option>
+            <option>White Chocolate Shakerato</option>
+            <option>Strawberry &amp; Coconut Matcha</option>
+            <option>The Magic (Cortado)</option>
+            <option>Hot Chocolate</option>
+            <option>Matcha Latte</option>
+            <option>London Fog</option>
+            <option>Cold Brew</option>
+            <option>Fresh-Pressed Juice</option>
+            <option>Pastry / Baguette</option>
+            <option>Something Else</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label>Your Rating</label>
+          <div class="star-pick" id="starPick">
+            <span class="sp-star" data-v="1">★</span>
+            <span class="sp-star" data-v="2">★</span>
+            <span class="sp-star" data-v="3">★</span>
+            <span class="sp-star" data-v="4">★</span>
+            <span class="sp-star" data-v="5">★</span>
+          </div>
+        </div>
+        <div class="ff">
+          <label>Your Thoughts</label>
+          <textarea placeholder="Tell us what you loved, what surprised you, or what we could do better..."></textarea>
+        </div>
+        <button class="fsub" onclick="fbDone()">Submit Feedback →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════ -->
+<footer class="ft">
+  <div class="ftin">
+    <div>
+      <span class="flt">Caffe <em>Paradiso</em></span>
+      <p class="ftag">"Dreamers welcome. Perfectionists at work.<br>Every cup, a love letter to New York."</p>
+      <div class="socs">
+        <a href="https://www.tiktok.com/@caffeparadiso.nyc" target="_blank" rel="noopener" class="soc">TK</a>
+        <a href="#" class="soc">IG</a>
+        <a href="#" class="soc">G</a>
+        <a href="#" class="soc">Y</a>
+      </div>
+    </div>
+    <div class="fc">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#menu">Signature Drinks</a></li>
+        <li><a href="#menu">Espresso Bar</a></li>
+        <li><a href="#menu">Specialty Iced</a></li>
+        <li><a href="#menu">Matcha &amp; Tea</a></li>
+        <li><a href="#menu">Fresh Juices</a></li>
+        <li><a href="#menu">Pastries &amp; Bites</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h4>Hours</h4>
+      <ul>
+        <li><a href="#">Mon – Fri · 8am – 5:30pm</a></li>
+        <li><a href="#">Saturday · 8am – 5:30pm</a></li>
+        <li><a href="#" style="color:rgba(255,248,239,.3);font-style:italic">Sunday · Closed</a></li>
+        <li><a href="#" style="color:var(--gld2)">Walk-ins Only ✓</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h4>Contact</h4>
+      <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>202B Elizabeth St, Nolita, NY 10012</div>
+      <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+12125550190">(212) 555-0190</a></div>
+      <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="/cdn-cgi/l/email-protection#761e131a1a1936151710101306170417121f051958180f15"><span class="__cf_email__" data-cfemail="3f575a5353507f5c5e59595a4f5e4d5e5b564c501151465c">[email&#160;protected]</span></a></div>
+    </div>
+  </div>
+  <div class="fbot">
+    <span>© 2025 Caffe Paradiso · 202B Elizabeth Street, Nolita, New York</span>
+    <span>Dreamers Welcome ❤️</span>
+  </div>
+</footer>
+
+<!-- MOBILE STICKY BAR -->
+<div class="mob">
+  <a href="tel:+12125550190" class="mob-call">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+    Call Now
+  </a>
+  <a href="#contact" class="mob-fb">Leave Feedback</a>
+</div>
+
+<!-- ═══ SCRIPTS ════════════════════════════════════════════════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Dot cursor — never changes (cursor:default on everything handles pointer)
+const DOT=document.getElementById('dot'),DOTR=document.getElementById('dotR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;DOT.style.left=mx+'px';DOT.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;DOTR.style.left=rx+'px';DOTR.style.top=ry+'px';requestAnimationFrame(loop)})();
+
+// ── Header scroll
+window.addEventListener('scroll',()=>document.getElementById('hdr').classList.toggle('scrolled',scrollY>60));
+
+// ── Mobile nav
+function toggleNav(){document.getElementById('hNav').classList.toggle('open')}
+document.querySelectorAll('#hNav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('hNav').classList.remove('open')));
+
+// ── Scroll reveal
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ── Photo strip parallax
+window.addEventListener('scroll',()=>{
+  document.querySelectorAll('.psi').forEach((img,i)=>{
+    img.style.transform=`scale(1.08) translateY(${scrollY*(i%2===0?.04:-.04)}px)`;
+  });
+});
+
+// ── Menu card 3D tilt
+document.querySelectorAll('.mc').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+    c.style.transform=`translateY(-8px) scale(1.015) rotateY(${px*7}deg) rotateX(${-py*5}deg)`;
+  });
+  c.addEventListener('mouseleave',()=>c.style.transform='');
+});
+
+// ── Star rating picker
+let rating=0;
+document.querySelectorAll('.sp-star').forEach(s=>{
+  s.addEventListener('mouseenter',()=>{
+    const v=+s.dataset.v;
+    document.querySelectorAll('.sp-star').forEach(x=>{x.classList.toggle('on',+x.dataset.v<=v)});
+  });
+  s.addEventListener('mouseleave',()=>{
+    document.querySelectorAll('.sp-star').forEach(x=>{x.classList.toggle('on',+x.dataset.v<=rating)});
+  });
+  s.addEventListener('click',()=>{
+    rating=+s.dataset.v;
+    document.querySelectorAll('.sp-star').forEach(x=>{x.classList.toggle('on',+x.dataset.v<=rating)});
+  });
+});
+
+// ── Feedback submit
+function fbDone(){document.getElementById('fbfields').style.display='none';document.getElementById('fbsuc').style.display='block'}
+
+// ── Live bookings widget
+[{n:'Marco V.',h:'SoHo',i:'Brown Butter Latte',m:4},{n:'Lena K.',h:'Tribeca',i:'Strawberry Matcha',m:11},{n:'James T.',h:'Nolita',i:'White Choc. Shakerato',m:18},{n:'Priya M.',h:'Williamsburg',i:'Matcha Latte',m:26},{n:'Sam R.',h:'LES',i:'Hot Chocolate',m:39}].forEach((b,i)=>{
+  const c=document.createElement('div');c.className='lc';c.style.animationDelay=i*.14+'s';
+  c.innerHTML=`<div class="ld"></div><span><strong>${b.n}</strong> from ${b.h} — ${b.i} · ${b.m}m ago</span>`;
+  document.getElementById('livew').appendChild(c);
+});
+
+// ══════════════════════════════════════════════
+//  COFFEE BEAN CANVAS (bright bg — warm beans)
+// ══════════════════════════════════════════════
+const canvas=document.getElementById('bc');
+const ctx=canvas.getContext('2d');
+let W,H,beans=[],frame=0,SY=0;
+
+function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight}
+resize();
+window.addEventListener('resize',()=>{resize();init()});
+window.addEventListener('scroll',()=>SY=scrollY);
+
+function drawBean(x,y,sz,ang,al){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(ang);
+  ctx.globalAlpha=al;
+  const g=ctx.createRadialGradient(-sz*.18,-sz*.28,0,0,0,sz*1.15);
+  g.addColorStop(0,'#C07840');
+  g.addColorStop(.4,'#8B4A22');
+  g.addColorStop(1,'#5A2E10');
+  ctx.beginPath();
+  ctx.ellipse(0,0,sz*.48,sz,0,0,Math.PI*2);
+  ctx.fillStyle=g;
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(0,0,sz*.48,sz,0,0,Math.PI*2);
+  ctx.strokeStyle='rgba(190,140,70,.18)';
+  ctx.lineWidth=sz*.07;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(0,-sz*.87);
+  ctx.bezierCurveTo(sz*.36,-sz*.22,sz*.36,sz*.22,0,sz*.87);
+  ctx.strokeStyle='rgba(40,15,5,.45)';
+  ctx.lineWidth=sz*.12;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(-sz*.14,-sz*.3,sz*.09,sz*.17,-0.3,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,210,140,.18)';
+  ctx.fill();
+  ctx.restore();
+}
+
+function init(){
+  beans=[];
+  for(let i=0;i<90;i++){
+    const z=Math.random();
+    beans.push({x:Math.random()*W,baseY:Math.random()*H*4,z,sz:3+z*10+Math.random()*4,ang:Math.random()*Math.PI*2,rot:(Math.random()-.5)*.006,dx:(Math.random()-.5)*.2*z,al:.035+z*.18+Math.random()*.08,ph:Math.random()*Math.PI*2,wAmp:6+Math.random()*12,wSpd:.004+Math.ra

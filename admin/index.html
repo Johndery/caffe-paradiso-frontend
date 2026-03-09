@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Caffe Paradiso</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;cursor:default}
+:root{
+  --esp:#2C1A0E;--roast:#4A2810;--car:#B8731A;--gld:#D4963A;--gld2:#F0B855;
+  --crm:#FFF8EF;--bg:#FFFAF4;--bg2:#FFF6EC;--bdr:#E8D8C4;--sub:#7A5C42;
+  --mist:#C0A882;--txt:#3D2410;--red:#C0392B;--grn:#27AE60;
+  --serif:'Playfair Display',serif;--sans:'DM Sans',sans-serif;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);min-height:100vh;display:flex}
+
+/* ─── LOGIN ─── */
+.login-wrap{width:100%;display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--esp)}
+.login-box{background:#fff;border-radius:16px;padding:2.5rem;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.login-logo{font-family:var(--serif);font-size:1.5rem;color:var(--esp);text-align:center;margin-bottom:.3rem}
+.login-logo em{color:var(--car);font-style:italic}
+.login-sub{text-align:center;font-size:.78rem;color:var(--mist);margin-bottom:1.8rem;letter-spacing:.06em}
+.lf label{display:block;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-bottom:.3rem}
+.lf input{width:100%;padding:.72rem 1rem;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;font-family:var(--sans);font-size:.9rem;color:var(--txt);outline:none;transition:border-color .2s;margin-bottom:.85rem}
+.lf input:focus{border-color:var(--car)}
+.lf-btn{width:100%;padding:.88rem;background:var(--esp);color:var(--crm);font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;border:none;border-radius:4px;transition:background .22s}
+.lf-btn:hover{background:var(--roast)}
+.login-err{display:none;background:#FEE;border:1px solid #F5C6C6;border-radius:4px;padding:.65rem;font-size:.8rem;color:var(--red);margin-bottom:.8rem;text-align:center}
+
+/* ─── SIDEBAR ─── */
+.sidebar{width:240px;background:var(--esp);min-height:100vh;display:flex;flex-direction:column;flex-shrink:0;position:fixed;left:0;top:0;bottom:0;z-index:100}
+.sb-logo{padding:1.6rem 1.4rem;border-bottom:1px solid rgba(255,248,239,.1)}
+.sb-logo h1{font-family:var(--serif);font-size:1.1rem;color:var(--crm);font-weight:400;font-style:italic}
+.sb-logo span{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,248,239,.35);margin-top:.2rem;display:block}
+.sb-nav{flex:1;padding:1.2rem 0}
+.sb-nav a{display:flex;align-items:center;gap:.7rem;padding:.78rem 1.4rem;color:rgba(255,248,239,.55);font-size:.8rem;font-weight:400;text-decoration:none;transition:all .2s;letter-spacing:.03em}
+.sb-nav a svg{width:16px;height:16px;flex-shrink:0}
+.sb-nav a:hover,.sb-nav a.active{background:rgba(255,248,239,.08);color:var(--gld2)}
+.sb-nav a.active{border-right:2px solid var(--gld2)}
+.sb-foot{padding:1.2rem 1.4rem;border-top:1px solid rgba(255,248,239,.1)}
+.sb-foot button{width:100%;padding:.6rem;background:rgba(255,248,239,.06);border:1px solid rgba(255,248,239,.15);border-radius:4px;color:rgba(255,248,239,.5);font-family:var(--sans);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.sb-foot button:hover{background:rgba(255,248,239,.1);color:rgba(255,248,239,.75)}
+
+/* ─── MAIN ─── */
+.main{margin-left:240px;flex:1;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid var(--bdr);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar h2{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--esp)}
+.topbar-right{display:flex;align-items:center;gap:.8rem}
+.badge-new{background:#E8F5E9;color:var(--grn);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .6rem;border-radius:20px}
+
+.content{padding:2rem}
+
+/* ─── STAT CARDS ─── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2rem}
+.stat-card{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:1.4rem 1.6rem;box-shadow:0 2px 12px rgba(44,26,14,.05)}
+.sc-label{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-bottom:.5rem}
+.sc-val{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--esp);line-height:1}
+.sc-sub{font-size:.72rem;color:var(--mist);margin-top:.3rem}
+.sc-icon{font-size:1.5rem;float:right;margin-top:-2.2rem}
+
+/* ─── SECTION PANEL ─── */
+.panel{background:#fff;border:1px solid var(--bdr);border-radius:12px;box-shadow:0 2px 12px rgba(44,26,14,.05);margin-bottom:1.5rem;overflow:hidden}
+.panel-head{padding:1.2rem 1.6rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.panel-head h3{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--esp)}
+.panel-body{padding:1.4rem 1.6rem}
+
+/* ─── TABLE ─── */
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{text-align:left;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);padding:.6rem .8rem;border-bottom:2px solid var(--bdr);font-weight:500}
+td{padding:.7rem .8rem;border-bottom:1px solid var(--bdr);color:var(--txt);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg)}
+
+/* ─── BADGES ─── */
+.badge{display:inline-block;font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:20px}
+.badge.new{background:#E3F2FD;color:#1565C0}
+.badge.read{background:#E8F5E9;color:#2E7D32}
+.badge.replied{background:#F3E5F5;color:#6A1B9A}
+.badge.available{background:#E8F5E9;color:#2E7D32}
+.badge.unavail{background:#FEEBEE;color:#C62828}
+
+/* star display */
+.stars-d{color:var(--gld);letter-spacing:.04em;font-size:.9rem}
+
+/* action buttons */
+.btn-sm{padding:.3rem .75rem;border-radius:4px;font-size:.65rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;border:1px solid;transition:all .2s}
+.btn-danger{border-color:#FFCDD2;color:var(--red);background:#FFF}
+.btn-danger:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-primary{border-color:var(--car);color:var(--car);background:#FFF}
+.btn-primary:hover{background:var(--car);color:#fff}
+.btn-success{border-color:#A5D6A7;color:var(--grn);background:#FFF}
+.btn-success:hover{background:var(--grn);color:#fff;border-color:var(--grn)}
+
+/* ─── FORM MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(44,26,14,.5);z-index:200;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;padding:2rem;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(44,26,14,.2)}
+.modal h3{font-family:var(--serif);font-size:1.3rem;color:var(--esp);margin-bottom:1.4rem}
+.mf-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.mf-full{grid-column:span 2}
+.mf label{display:block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-bottom:.3rem}
+.mf input,.mf select,.mf textarea{width:100%;padding:.68rem .9rem;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;font-family:var(--sans);font-size:.84rem;color:var(--txt);outline:none;transition:border-color .2s;appearance:none;margin-bottom:.85rem}
+.mf input:focus,.mf select:focus,.mf textarea:focus{border-color:var(--car);background:#fff}
+.mf textarea{resize:vertical;min-height:80px}
+.modal-btns{display:flex;gap:.8rem;justify-content:flex-end;margin-top:.5rem}
+.btn-cancel{padding:.72rem 1.4rem;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;font-family:var(--sans);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sub)}
+.btn-cancel:hover{background:var(--bdr)}
+.btn-save{padding:.72rem 1.6rem;background:var(--esp);color:var(--crm);border:none;border-radius:4px;font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.btn-save:hover{background:var(--roast)}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:2rem;right:2rem;padding:1rem 1.4rem;border-radius:8px;font-size:.82rem;font-weight:500;z-index:999;transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:#2E7D32;color:#fff}
+.toast.error{background:var(--red);color:#fff}
+
+/* tabs */
+.tabs{display:flex;gap:.5rem;margin-bottom:1.4rem}
+.tab{padding:.45rem 1.1rem;border:1px solid var(--bdr);border-radius:20px;font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);background:#fff;transition:all .2s}
+.tab.active,.tab:hover{background:var(--esp);color:var(--crm);border-color:var(--esp)}
+
+/* avg rating display */
+.avg-stars{font-size:1.4rem;color:var(--gld)}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN SCREEN ══════════════════════════════════════════ -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Caffe <em>Paradiso</em></div>
+    <div class="login-sub">Admin Dashboard · Staff Only</div>
+    <div class="login-err" id="loginErr">Invalid username or password</div>
+    <div class="lf">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="admin username" />
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
+      <button class="lf-btn" onclick="doLogin()">Sign In →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN APP ═══════════════════════════════════════════════ -->
+<div id="appWrap" style="display:none;width:100%">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <h1>Caffe Paradiso</h1>
+      <span>Admin Panel</span>
+    </div>
+    <nav class="sb-nav">
+      <a href="#" class="active" onclick="showPage('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="#" onclick="showPage('feedback',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Customer Feedback
+        <span id="fbBadge" style="margin-left:auto;background:var(--car);color:#fff;font-size:.58rem;padding:.15rem .45rem;border-radius:10px;display:none"></span>
+      </a>
+      <a href="#" onclick="showPage('menu',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Menu Manager
+      </a>
+      <a href="#" onclick="showPage('messages',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Messages
+      </a>
+    </nav>
+    <div class="sb-foot">
+      <button onclick="doLogout()">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="topbar">
+      <h2 id="pageTitle">Dashboard</h2>
+      <div class="topbar-right">
+        <span id="newFbAlert" class="badge-new" style="display:none">New feedback!</span>
+        <span style="font-size:.75rem;color:var(--mist)">Mon – Sat · 8:00 AM – 5:30 PM</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── DASHBOARD PAGE ── -->
+      <div id="page-dashboard">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="sc-icon">⭐</div>
+            <div class="sc-label">Avg Rating</div>
+            <div class="sc-val" id="avgRating">–</div>
+            <div class="sc-sub">from all feedback</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon">💬</div>
+            <div class="sc-label">Total Feedback</div>
+            <div class="sc-val" id="totalFb">–</div>
+            <div class="sc-sub">submissions received</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon">🍵</div>
+            <div class="sc-label">Menu Items</div>
+            <div class="sc-val" id="totalMenu">–</div>
+            <div class="sc-sub">currently listed</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon">📬</div>
+            <div class="sc-label">New Messages</div>
+            <div class="sc-val" id="newMsgs">–</div>
+            <div class="sc-sub">unread contact messages</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Recent Feedback</h3>
+            <button class="btn-sm btn-primary" onclick="showPage('feedback',document.querySelector('.sb-nav a:nth-child(2)'))">View All</button>
+          </div>
+          <div class="panel-body" id="recentFbList">
+            <p style="color:var(--mist);font-size:.82rem">Loading...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FEEDBACK PAGE ── -->
+      <div id="page-feedback" style="display:none">
+        <div class="tabs" id="fbTabs">
+          <div class="tab active" onclick="filterFb('all',this)">All</div>
+          <div class="tab" onclick="filterFb('new',this)">New</div>
+          <div class="tab" onclick="filterFb('read',this)">Read</div>
+          <div class="tab" onclick="filterFb('replied',this)">Replied</div>
+        </div>
+        <div class="panel">
+          <div class="panel-body">
+            <table>
+              <thead><tr>
+                <th>Name</th><th>Item Tried</th><th>Rating</th>
+                <th>Message</th><th>Status</th><th>Date</th><th>Actions</th>
+              </tr></thead>
+              <tbody id="fbTableBody"><tr><td colspan="7" style="text-align:center;color:var(--mist)">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MENU PAGE ── -->
+      <div id="page-menu" style="display:none">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:1.2rem">
+          <button class="btn-sm btn-primary" style="padding:.5rem 1.2rem" onclick="openAddMenu()">+ Add Item</button>
+        </div>
+        <div class="panel">
+          <div class="panel-body">
+            <table>
+              <thead><tr>
+                <th>Name</th><th>Category</th><th>Price</th>
+                <th>Tag</th><th>Status</th><th>Actions</th>
+              </tr></thead>
+              <tbody id="menuTableBody"><tr><td colspan="6" style="text-align:center;color:var(--mist)">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MESSAGES PAGE ── -->
+      <div id="page-messages" style="display:none">
+        <div class="panel">
+          <div class="panel-body">
+            <table>
+              <thead><tr>
+                <th>Name</th><th>Email</th><th>Phone</th><th>Message</th><th>Date</th><th>Status</th>
+              </tr></thead>
+              <tbody id="msgTableBody"><tr><td colspan="6" style="text-align:center;color:var(--mist)">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /appWrap -->
+
+<!-- ═══ ADD/EDIT MENU MODAL ════════════════════════════════════ -->
+<div class="modal-overlay" id="menuModal">
+  <div class="modal">
+    <h3 id="modalTitle">Add Menu Item</h3>
+    <input type="hidden" id="editingId" />
+    <div class="mf-row">
+      <div>
+        <label>Item Name *</label>
+        <input type="text" id="mName" placeholder="e.g. Salted Brown Butter Latte" />
+      </div>
+      <div>
+        <label>Price *</label>
+        <input type="text" id="mPrice" placeholder="e.g. $7 or From $8" />
+      </div>
+      <div class="mf-full">
+        <label>Description *</label>
+        <textarea id="mDesc" placeholder="Short, enticing description..."></textarea>
+      </div>
+      <div>
+        <label>Category *</label>
+        <select id="mCat">
+          <option value="">Select category</option>
+          <option>Signature Drinks</option>
+          <option>Espresso Bar</option>
+          <option>Specialty Iced</option>
+          <option>Matcha &amp; Tea</option>
+          <option>Hot Specials</option>
+          <option>Fresh Juices</option>
+          <option>Pastries &amp; Bites</option>
+        </select>
+      </div>
+      <div>
+        <label>Badge</label>
+        <select id="mBadge">
+          <option value="">None</option>
+          <option>Signature</option>
+          <option>New</option>
+          <option>Fan Fave</option>
+          <option>Seasonal</option>
+          <option>Must Try</option>
+        </select>
+      </div>
+      <div>
+        <label>Tag (Hot/Iced/etc)</label>
+        <input type="text" id="mTag" placeholder="e.g. Hot / Iced" />
+      </div>
+      <div>
+        <label>Sort Order</label>
+        <input type="number" id="mSort" placeholder="0" />
+      </div>
+      <div class="mf-full">
+        <label>Image URL</label>
+        <input type="text" id="mImg" placeholder="https://images.unsplash.com/..." />
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveMenuItem()">Save Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ════════════════════════════════════════════════ -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONFIG ─── Update this to your Railway/Render backend URL ────────────────
+const API = 'https://your-backend.railway.app';  // ← CHANGE THIS after deploying
+let TOKEN = '';
+let currentFbFilter = 'all';
+
+// ─── LOGIN ────────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value.trim();
+  document.getElementById('loginErr').style.display = 'none';
+
+  try {
+    const res  = await fetch(`${API}/api/auth/login`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    TOKEN = data.token;
+    localStorage.setItem('cp_token', TOKEN);
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appWrap').style.display = 'flex';
+    loadDashboard();
+  } catch(e) {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+
+// Auto-login from stored token
+window.addEventListener('load', async () => {
+  const stored = localStorage.getItem('cp_token');
+  if (stored) {
+    try {
+      const res = await fetch(`${API}/api/auth/verify`, { headers: { Authorization: `Bearer ${stored}` } });
+      const d   = await res.json();
+      if (d.success) {
+        TOKEN = stored;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appWrap').style.display = 'flex';
+        loadDashboard();
+        return;
+      }
+    } catch(e) {}
+  }
+});
+
+function doLogout() {
+  localStorage.removeItem('cp_token');
+  TOKEN = '';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('appWrap').style.display = 'none';
+}
+
+// ─── PAGE SWITCHING ───────────────────────────────────────────────────────────
+const pages = { dashboard: loadDashboard, feedback: loadFeedback, menu: loadMenu, messages: loadMessages };
+
+function showPage(name, el) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  document.getElementById('page-' + name).style.display = 'block';
+  document.querySelectorAll('.sb-nav a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const titles = { dashboard:'Dashboard', feedback:'Customer Feedback', menu:'Menu Manager', messages:'Messages' };
+  document.getElementById('pageTitle').textContent = titles[name] || name;
+  if (pages[name]) pages[name]();
+}
+
+// ─── DASHBOARD ───────────────────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const [fbRes, menuRes, msgRes] = await Promise.all([
+      fetch(`${API}/api/feedback/all?limit=5`, { headers: { Authorization: `Bearer ${TOKEN}` } }),
+      fetch(`${API}/api/menu/all`, { headers: { Authorization: `Bearer ${TOKEN}` } }),
+      fetch(`${API}/api/contact/all`, { headers: { Authorization: `Bearer ${TOKEN}` } })
+    ]);
+    const fb   = await fbRes.json();
+    const menu = await menuRes.json();
+    const msg  = await msgRes.json();
+
+    if (fb.success) {
+      document.getElementById('avgRating').textContent = fb.stats?.avgRating ? fb.stats.avgRating.toFixed(1) : '–';
+      document.getElementById('totalFb').textContent   = fb.stats?.total || 0;
+      const newCount = (fb.data || []).filter(f => f.status === 'new').length;
+      if (newCount > 0) { document.getElementById('fbBadge').textContent = newCount; document.getElementById('fbBadge').style.display = ''; document.getElementById('newFbAlert').style.display = ''; }
+      renderRecentFeedback(fb.data || []);
+    }
+    if (menu.success) document.getElementById('totalMenu').textContent = menu.total || 0;
+    if (msg.success) {
+      const newMsgs = (msg.data || []).filter(m => m.status === 'new').length;
+      document.getElementById('newMsgs').textContent = newMsgs;
+    }
+  } catch(e) { console.error('Dashboard load error:', e); }
+}
+
+function renderRecentFeedback(items) {
+  const el = document.getElementById('recentFbList');
+  if (!items.length) { el.innerHTML = '<p style="color:var(--mist);font-size:.82rem">No feedback yet.</p>'; return; }
+  el.innerHTML = `<table><thead><tr><th>Name</th><th>Rating</th><th>Message</th><th>Date</th></tr></thead><tbody>
+    ${items.slice(0,5).map(f => `<tr>
+      <td><strong>${esc(f.name)}</strong></td>
+      <td><span class="stars-d">${'★'.repeat(f.rating)}${'☆'.repeat(5-f.rating)}</span></td>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sub);font-style:italic">"${esc(f.message)}"</td>
+      <td style="color:var(--mist);font-size:.75rem">${fmtDate(f.createdAt)}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+// ─── FEEDBACK ────────────────────────────────────────────────────────────────
+async function loadFeedback() {
+  try {
+    const url = currentFbFilter === 'all' ? `${API}/api/feedback/all` : `${API}/api/feedback/all?status=${currentFbFilter}`;
+    const res  = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    const data = await res.json();
+    const tbody = document.getElementById('fbTableBody');
+    if (!data.success || !data.data.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--mist);padding:2rem">No feedback found</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.data.map(f => `<tr>
+      <td><strong>${esc(f.name)}</strong>${f.email ? `<br><span style="font-size:.7rem;color:var(--mist)">${esc(f.email)}</span>` : ''}</td>
+      <td style="font-size:.8rem;color:var(--sub)">${esc(f.itemTried||'—')}</td>
+      <td><span class="stars-d" style="font-size:.95rem">${'★'.repeat(f.rating)}${'☆'.repeat(5-f.rating)}</span></td>
+      <td style="max-width:220px;font-size:.8rem;color:var(--sub);font-style:italic">"${esc(f.message.substring(0,80))}${f.message.length>80?'…':''}"</td>
+      <td><span class="badge ${f.status}">${f.status}</span></td>
+      <td style="font-size:.72rem;color:var(--mist)">${fmtDate(f.createdAt)}</td>
+      <td style="display:flex;gap:.4rem;flex-wrap:wrap">
+        ${f.status !== 'read' ? `<button class="btn-sm btn-success" onclick="setFbStatus('${f._id}','read')">Mark Read</button>` : ''}
+        ${f.status !== 'replied' ? `<button class="btn-sm btn-primary" onclick="setFbStatus('${f._id}','replied')">Replied</button>` : ''}
+        <button class="btn-sm btn-danger" onclick="deleteFb('${f._id}')">Delete</button>
+      </td>
+    </tr>`).join('');
+  } catch(e) { console.error(e); }
+}
+
+function filterFb(status, el) {
+  currentFbFilter = status;
+  document.querySelectorAll('#fbTabs .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  loadFeedback();
+}
+
+async function setFbStatus(id, status) {
+  await authFetch(`${API}/api/feedback/${id}/status`, 'PATCH', { status });
+  toast('Status updated', 'success');
+  loadFeedback();
+}
+
+async function deleteFb(id) {
+  if (!confirm('Delete this feedback?')) return;
+  await authFetch(`${API}/api/feedback/${id}`, 'DELETE');
+  toast('Deleted', 'success');
+  loadFeedback();
+}
+
+// ─── MENU ────────────────────────────────────────────────────────────────────
+async function loadMenu() {
+  try {
+    const res  = await fetch(`${API}/api/menu/all`, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    const data = await res.json();
+    const tbody = document.getElementById('menuTableBody');
+    if (!data.success || !data.data.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--mist);padding:2rem">No menu items yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.data.map(m => `<tr>
+      <td>
+        <strong>${esc(m.name)}</strong>
+        ${m.badge ? `<br><span class="badge new" style="margin-top:.2rem">${esc(m.badge)}</span>` : ''}
+      </td>
+      <td style="font-size:.8rem;color:var(--sub)">${esc(m.category)}</td>
+      <td><strong style="color:var(--car);font-family:var(--serif);font-style:italic">${esc(m.price)}</strong></td>
+      <td style="font-size:.75rem;color:var(--mist)">${esc(m.tag||'—')}</td>
+      <td><span class="badge ${m.available ? 'available' : 'unavail'}">${m.available ? 'Available' : 'Hidden'}</span></td>
+      <td style="display:flex;gap:.4rem;flex-wrap:wrap">
+        <button class="btn-sm btn-primary" onclick='openEditMenu(${JSON.stringify(m)})'>Edit</button>
+        <button class="btn-sm ${m.available ? 'btn-danger' : 'btn-success'}" onclick="toggleItem('${m._id}')">${m.available ? 'Hide' : 'Show'}</button>
+        <button class="btn-sm btn-danger" onclick="deleteItem('${m._id}')">Del</button>
+      </td>
+    </tr>`).join('');
+  } catch(e) { console.error(e); }
+}
+
+function openAddMenu() {
+  document.getElementById('modalTitle').textContent = 'Add Menu Item';
+  document.getElementById('editingId').value = '';
+  ['mName','mPrice','mDesc','mTag','mImg'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('mCat').value = '';
+  document.getElementById('mBadge').value = '';
+  document.getElementById('mSort').value = '0';
+  document.getElementById('menuModal').classList.add('open');
+}
+
+function openEditMenu(item) {
+  document.getElementById('modalTitle').textContent = 'Edit Menu Item';
+  document.getElementById('editingId').value = item._id;
+  document.getElementById('mName').value  = item.name || '';
+  document.getElementById('mPrice').value = item.price || '';
+  document.getElementById('mDesc').value  = item.description || '';
+  document.getElementById('mCat').value   = item.category || '';
+  document.getElementById('mBadge').value = item.badge || '';
+  document.getElementById('mTag').value   = item.tag || '';
+  document.getElementById('mSort').value  = item.sortOrder || 0;
+  document.getElementById('mImg').value   = item.imageUrl || '';
+  document.getElementById('menuModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('menuModal').classList.remove('open'); }
+
+async function saveMenuItem() {
+  const id   = document.getElementById('editingId').value;
+  const body = {
+    name:        document.getElementById('mName').value.trim(),
+    price:       document.getElementById('mPrice').value.trim(),
+    description: document.getElementById('mDesc').value.trim(),
+    category:    document.getElementById('mCat').value,
+    badge:       document.getElementById('mBadge').value,
+    tag:         document.getElementById('mTag').value.trim(),
+    sortOrder:   Number(document.getElementById('mSort').value) || 0,
+    imageUrl:    document.getElementById('mImg').value.trim(),
+  };
+  if (!body.name || !body.price || !body.description || !body.category) {
+    toast('Fill in all required fields', 'error'); return;
+  }
+  try {
+    const url    = id ? `${API}/api/menu/${id}` : `${API}/api/menu`;
+    const method = id ? 'PUT' : 'POST';
+    const data   = await authFetch(url, method, body);
+    if (data.success) {
+      toast(id ? 'Item updated ✓' : 'Item added ✓', 'success');
+      closeModal();
+      loadMenu();
+    } else { toast(data.message || 'Failed', 'error'); }
+  } catch(e) { toast('Error saving item', 'error'); }
+}
+
+async function toggleItem(id) {
+  const data = await authFetch(`${API}/api/menu/${id}/toggle`, 'PATCH');
+  if (data.success) { toast(data.message, 'success'); loadMenu(); }
+}
+
+async function deleteItem(id) {
+  if (!confirm('Delete this menu item?')) return;
+  const data = await authFetch(`${API}/api/menu/${id}`, 'DELETE');
+  if (data.success) { toast('Deleted', 'success'); loadMenu(); }
+}
+
+// ─── MESSAGES ────────────────────────────────────────────────────────────────
+async function loadMessages() {
+  try {
+    const res  = await fetch(`${API}/api/contact/all`, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    const data = await res.json();
+    const tbody = document.getElementById('msgTableBody');
+    if (!data.success || !data.data.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--mist);padding:2rem">No messages yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.data.map(m => `<tr>
+      <td><strong>${esc(m.name)}</strong></td>
+      <td style="font-size:.78rem">${m.email ? `<a href="mailto:${esc(m.email)}" style="color:var(--car)">${esc(m.email)}</a>` : '—'}</td>
+      <td style="font-size:.78rem">${m.phone ? `<a href="tel:${esc(m.phone)}" style="color:var(--car)">${esc(m.phone)}</a>` : '—'}</td>
+      <td style="max-width:260px;font-size:.8rem;font-style:italic;color:var(--sub)">"${esc(m.message.substring(0,100))}${m.message.length>100?'…':''}"</td>
+      <td style="font-size:.72rem;color:var(--mist)">${fmtDate(m.createdAt)}</td>
+      <td><span class="badge ${m.status}">${m.status}</span></td>
+    </tr>`).join('');
+  } catch(e) { console.error(e); }
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+async function authFetch(url, method = 'GET', body = null) {
+  const opts = { method, headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res  = await fetch(url, opts);
+  return res.json();
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function toast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>
