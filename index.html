@@ -462,18 +462,18 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
   border-radius: 16px 16px 0 0;
   overflow: hidden;
   position: relative;
-  background: var(--bg3);
-}
-.fcard-img img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  background-color: var(--bg3);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   transition: transform .5s cubic-bezier(.23,1,.32,1);
-  display: block;
 }
-.fcard:hover .fcard-img img{
+.fcard:hover .fcard-img{
   transform: scale(1.08);
+}
+/* Hide any remaining img tags inside fcard-img */
+.fcard-img img{
+  display: none;
 }
 
 /* Badge */
@@ -582,6 +582,45 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
 /* Cursor grows on hover over interactive elements */
 a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--car); }
 
+
+/* ═══ CURSOR FINAL OVERRIDE ════════════════════════════ */
+html, html *, html *::before, html *::after {
+  cursor: none !important;
+}
+@media (pointer: coarse) {
+  html, html *, html *::before, html *::after { cursor: auto !important; }
+  #dot, #dotR { display: none !important; }
+}
+#dot {
+  position: fixed !important;
+  width: 12px !important;
+  height: 12px !important;
+  background: #2C1A0E !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+  top: 0 !important;
+  left: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  transition: width .15s, height .15s, background .15s !important;
+  will-change: left, top !important;
+}
+#dotR {
+  position: fixed !important;
+  width: 36px !important;
+  height: 36px !important;
+  border: 2px solid #2C1A0E !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  z-index: 2147483646 !important;
+  top: 0 !important;
+  left: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  opacity: 0.6 !important;
+  will-change: left, top !important;
+  transition: width .2s, height .2s, opacity .2s !important;
+}
+
 </style>
 </head>
 <body>
@@ -667,24 +706,24 @@ a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--
     <div class="float-row">
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/3879495/pexels-photo-3879495.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Salted Brown Butter Oat Latte"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/3879495/pexels-photo-3879495.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-bdg sig">★ Star</div>
         <div class="fcard-info"><div class="fcard-name">Salted Brown Butter Oat Latte</div><div class="fcard-price">$7</div><div class="fcard-tag">On Tap</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/4829098/pexels-photo-4829098.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Paradiso Cream Top"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/4829098/pexels-photo-4829098.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Paradiso Cream Top</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/7474227/pexels-photo-7474227.jpeg?auto=compress&cs=tinysrgb&w=600" alt="White Chocolate Shakerato"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/7474227/pexels-photo-7474227.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-bdg new">New</div>
         <div class="fcard-info"><div class="fcard-name">White Chocolate Shakerato</div><div class="fcard-price">$7.50</div><div class="fcard-tag">Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="The Magic Cortado"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">The Magic (Cortado)</div><div class="fcard-price">$5</div><div class="fcard-tag">Hot</div></div>
       </div>
     </div>
@@ -696,32 +735,32 @@ a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--
     <div class="float-row">
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/6802983/pexels-photo-6802983.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Espresso"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/6802983/pexels-photo-6802983.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Espresso</div><div class="fcard-price">$4</div><div class="fcard-tag">Hot</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/1813466/pexels-photo-1813466.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Macchiato"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/1813466/pexels-photo-1813466.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Macchiato</div><div class="fcard-price">$4.25</div><div class="fcard-tag">Hot</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/1251175/pexels-photo-1251175.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Americano"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/1251175/pexels-photo-1251175.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Americano</div><div class="fcard-price">$4.25</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/350478/pexels-photo-350478.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cappuccino"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/350478/pexels-photo-350478.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Cappuccino</div><div class="fcard-price">$5</div><div class="fcard-tag">Hot</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Latte"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Latte</div><div class="fcard-price">$6</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/3551717/pexels-photo-3551717.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mocha Latte"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/3551717/pexels-photo-3551717.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Mocha Latte</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
     </div>
@@ -733,23 +772,23 @@ a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--
     <div class="float-row">
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/8472862/pexels-photo-8472862.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Strawberry Coconut Matcha"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/8472862/pexels-photo-8472862.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-bdg fave">Fan Fave</div>
         <div class="fcard-info"><div class="fcard-name">Strawberry &amp; Coconut Matcha</div><div class="fcard-price">$9.50</div><div class="fcard-tag">Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/4829098/pexels-photo-4829098.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Caramel Espresso Mousse"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/4829098/pexels-photo-4829098.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Caramel &amp; Espresso Mousse</div><div class="fcard-price">$9.50</div><div class="fcard-tag">Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/5946626/pexels-photo-5946626.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Iced Chai Latte"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/5946626/pexels-photo-5946626.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Iced Chai Latte</div><div class="fcard-price">$7.50</div><div class="fcard-tag">Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/4820769/pexels-photo-4820769.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cold Brew"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/4820769/pexels-photo-4820769.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Cold Brew Iced Coffee</div><div class="fcard-price">$6</div><div class="fcard-tag">Iced</div></div>
       </div>
     </div>
@@ -761,22 +800,22 @@ a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--
     <div class="float-row">
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/3796426/pexels-photo-3796426.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Matcha Latte"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/3796426/pexels-photo-3796426.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Matcha Latte</div><div class="fcard-price">$8.50</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/905485/pexels-photo-905485.jpeg?auto=compress&cs=tinysrgb&w=600" alt="London Fog"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/905485/pexels-photo-905485.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">London Fog</div><div class="fcard-price">$4.75</div><div class="fcard-tag">Hot</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/1638280/pexels-photo-1638280.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hot Tea"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/1638280/pexels-photo-1638280.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Hot Tea</div><div class="fcard-price">$4.50</div><div class="fcard-tag">Hot</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Iced Tea"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Iced Tea</div><div class="fcard-price">$4.50</div><div class="fcard-tag">Iced</div></div>
       </div>
     </div>
@@ -788,18 +827,18 @@ a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--
     <div class="float-row">
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/3734195/pexels-photo-3734195.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hot Chocolate"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/3734195/pexels-photo-3734195.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-bdg must">Must Try</div>
         <div class="fcard-info"><div class="fcard-name">Hot Chocolate</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Hot</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/324028/pexels-photo-324028.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Drip Coffee"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/324028/pexels-photo-324028.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Drip Coffee</div><div class="fcard-price">$4.50</div><div class="fcard-tag">Hot</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/5946610/pexels-photo-5946610.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hot Apple Cider"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/5946610/pexels-photo-5946610.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-bdg seas">Seasonal</div>
         <div class="fcard-info"><div class="fcard-name">Hot Apple Cider &amp; Cream</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Seasonal</div></div>
       </div>
@@ -812,22 +851,22 @@ a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--
     <div class="float-row">
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/1346347/pexels-photo-1346347.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Greens Juice"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/1346347/pexels-photo-1346347.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Greens Juice</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/775032/pexels-photo-775032.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Avocado Greens"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/775032/pexels-photo-775032.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Avocado Greens</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/3174835/pexels-photo-3174835.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Roots with Ginger"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/3174835/pexels-photo-3174835.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Roots with Ginger</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mango Turmeric Lemon"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Mango Turmeric Lemon</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
       </div>
     </div>
@@ -839,17 +878,17 @@ a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--
     <div class="float-row">
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/2135/food-france-morning-breakfast.jpg?auto=compress&cs=tinysrgb&w=600" alt="Butter Croissant"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/2135/food-france-morning-breakfast.jpg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Butter Croissant</div><div class="fcard-price">$4</div><div class="fcard-tag">Daily Fresh</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Seasonal Cookie"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Seasonal Cookie</div><div class="fcard-price">$3.50</div><div class="fcard-tag">Rotating</div></div>
       </div>
       <div class="fcard" data-tilt>
         <div class="fcard-shine"></div>
-        <div class="fcard-img"><img src="https://images.pexels.com/photos/1603901/pexels-photo-1603901.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Baguette Sandwich"/></div>
+        <div class="fcard-img" style="background-image:url('https://images.pexels.com/photos/1603901/pexels-photo-1603901.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
         <div class="fcard-info"><div class="fcard-name">Baguette Sandwich</div><div class="fcard-price">From $8</div><div class="fcard-tag">Daily Fresh</div></div>
       </div>
     </div>
@@ -1222,51 +1261,58 @@ document.querySelectorAll('.fcard[data-tilt]').forEach(card => {
   });
 });
 
-// ── CURSOR with smooth spring tracking ─────────────────────────
-const DOT  = document.getElementById('dot');
-const DOTR = document.getElementById('dotR');
-if(DOT && DOTR){
-  let mx=window.innerWidth/2, my=window.innerHeight/2;
-  let rx=mx, ry=my;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    DOT.style.left = mx + 'px';
-    DOT.style.top  = my + 'px';
-  });
-  (function loop(){
-    rx += (mx - rx) * .12;
-    ry += (my - ry) * .12;
-    DOTR.style.left = rx + 'px';
-    DOTR.style.top  = ry + 'px';
-    requestAnimationFrame(loop);
-  })();
-  // Scale on hover
-  document.querySelectorAll('a, button, .fcard').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      DOT.style.width  = '16px';
-      DOT.style.height = '16px';
-      DOT.style.background = '#B8731A';
-      DOTR.style.width  = '48px';
-      DOTR.style.height = '48px';
-      DOTR.style.opacity = '.35';
-    });
-    el.addEventListener('mouseleave', () => {
-      DOT.style.width  = '10px';
-      DOT.style.height = '10px';
-      DOT.style.background = '#2C1A0E';
-      DOTR.style.width  = '32px';
-      DOTR.style.height = '32px';
-      DOTR.style.opacity = '.55';
-    });
-  });
-}
 
 </script><script>
-// ── Dot cursor — never changes (cursor:none on everything handles pointer)
-const DOT=document.getElementById('dot'),DOTR=document.getElementById('dotR');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;DOT.style.left=mx+'px';DOT.style.top=my+'px'});
-(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;DOTR.style.left=rx+'px';DOTR.style.top=ry+'px';requestAnimationFrame(loop)})();
+
+// ═══ CURSOR — guaranteed to work ══════════════════════════
+(function() {
+  var dot  = document.getElementById('dot');
+  var ring = document.getElementById('dotR');
+  if (!dot || !ring) return;
+  
+  var mouseX = window.innerWidth  / 2;
+  var mouseY = window.innerHeight / 2;
+  var ringX  = mouseX, ringY = mouseY;
+  
+  // Move dot instantly to cursor position
+  document.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top  = mouseY + 'px';
+  });
+  
+  // Ring follows with spring lag
+  function animRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top  = ringY + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+  
+  // Grow on hover
+  var interactives = document.querySelectorAll('a, button, .fcard');
+  interactives.forEach(function(el) {
+    el.addEventListener('mouseenter', function() {
+      dot.style.width    = '18px';
+      dot.style.height   = '18px';
+      dot.style.background = '#B8731A';
+      ring.style.width   = '50px';
+      ring.style.height  = '50px';
+      ring.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', function() {
+      dot.style.width    = '12px';
+      dot.style.height   = '12px';
+      dot.style.background = '#2C1A0E';
+      ring.style.width   = '36px';
+      ring.style.height  = '36px';
+      ring.style.opacity = '0.6';
+    });
+  });
+})();
 
 // ── Header scroll
 window.addEventListener('scroll',()=>document.getElementById('hdr').classList.toggle('scrolled',scrollY>60));
