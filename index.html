@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer-when-downgrade">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Caffe Paradiso — Nolita, New York City</title>
 <meta name="description" content="Caffe Paradiso — 202B Elizabeth Street, Nolita. Salted Brown Butter Oat Latte, Matcha, Shakerato, Espresso & more. Mon–Sat 8am–5:30pm.">
@@ -11,8 +12,11 @@
 <style>
 /* ─── RESET & ROOT ─── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-/* CRITICAL: never change cursor to pointer on any element */
-*{cursor:default !important}
+
+}
+
+
+
 html{scroll-behavior:smooth}
 
 :root{
@@ -35,9 +39,9 @@ html{scroll-behavior:smooth}
 }
 body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-weight:300;overflow-x:hidden}
 
-/* ─── CUSTOM DOT CURSOR — never changes ─── */
-#dot{position:fixed;width:11px;height:11px;border-radius:50%;background:var(--car);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply}
-#dotR{position:fixed;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(184,115,26,.38);pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+
+
+
 
 /* ─── BEAN CANVAS ─── */
 #bc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
@@ -199,7 +203,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
 @keyframes cin{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
 
 /* ─── PARALLAX QUOTE ─── */
-.pq{height:380px;background:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=80&auto=format&fit=crop') center/cover fixed;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.pq{height:380px;background:url('https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?auto=compress&cs=tinysrgb&w=800') center/cover fixed;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
 .pq::before{content:'';position:absolute;inset:0;background:rgba(255,245,228,.8)}
 .pq-in{position:relative;z-index:2;max-width:700px;padding:0 2rem}
 .pqt{font-family:var(--serif);font-size:clamp(1.3rem,3vw,2.3rem);font-weight:400;font-style:italic;color:var(--esp);line-height:1.5}
@@ -302,7 +306,282 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
 /* ─── RESPONSIVE ─── */
 @media(max-width:1200px){.mgrid{grid-template-columns:repeat(3,1fr)}.rgrid{grid-template-columns:repeat(2,1fr)}.awrap{grid-template-columns:1fr}.aimgs{height:340px;order:-1}.aia,.ait{display:none}.ftin{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){.mgrid{grid-template-columns:repeat(2,1fr)}.vwrap{grid-template-columns:1fr}.vmap{min-height:280px;height:280px;position:relative}.cin{grid-template-columns:1fr}.pstrip{grid-template-columns:1fr 1fr;height:220px}.hdrinks{display:none}}
-@media(max-width:600px){.hnav{display:none}.hnav.open{display:flex;flex-direction:column;position:fixed;inset:0;top:72px;background:rgba(255,250,244,.98);padding:3rem 2rem;gap:2rem;z-index:499;align-items:flex-start}.hnav.open a{font-size:1.1rem;color:var(--esp)}.hbg{display:flex}.mob{display:flex}.mgrid{grid-template-columns:1fr 1fr}.rgrid{grid-template-columns:1fr}.ftin{grid-template-columns:1fr}.pstrip{grid-template-columns:1fr 1fr;height:180px}.cat-tabs{gap:.4rem}body{padding-bottom:80px}#dot,#dotR{display:none}}
+@media(max-width:600px){.hnav{display:none}.hnav.open{display:flex;flex-direction:column;position:fixed;inset:0;top:72px;background:rgba(255,250,244,.98);padding:3rem 2rem;gap:2rem;z-index:499;align-items:flex-start}.hnav.open a{font-size:1.1rem;color:var(--esp)}.hbg{display:flex}.mob{display:flex}.mgrid{grid-template-columns:1fr 1fr}.rgrid{grid-template-columns:1fr}.ftin{grid-template-columns:1fr}.pstrip{grid-template-columns:1fr 1fr;height:180px}.cat-tabs{gap:.4rem}body{padding-bottom:80px}#dot,}
+
+/* ── 3D IMAGE ANIMATIONS ─────────────────────────── */
+/* Menu cards 3D flip-reveal on scroll */
+.mc{
+  transform-style: preserve-3d;
+  perspective: 800px;
+  transition: transform .5s cubic-bezier(.23,1,.32,1), box-shadow .4s;
+}
+.mc.revealed{
+  animation: card3dReveal .7s cubic-bezier(.23,1,.32,1) both;
+}
+@keyframes card3dReveal{
+  0%  {opacity:0; transform: rotateY(-25deg) translateY(40px) scale(.95);}
+  100%{opacity:1; transform: rotateY(0deg)   translateY(0)    scale(1);}
+}
+.mc:hover{
+  transform: rotateY(6deg) rotateX(-4deg) translateY(-10px) scale(1.03);
+  box-shadow: 12px 20px 40px rgba(44,26,14,.18), 0 4px 12px rgba(44,26,14,.1);
+  z-index:10;
+}
+.mc img{
+  transition: transform .5s cubic-bezier(.23,1,.32,1);
+  transform-origin: center bottom;
+}
+.mc:hover img{
+  transform: scale(1.08) translateY(-4px);
+}
+/* Photo strip 3D parallax tilt */
+.psc{
+  transform-style: preserve-3d;
+  perspective: 600px;
+  overflow:hidden;
+}
+.psc:hover .psi{
+  transform: scale(1.12) rotateX(4deg);
+  filter: brightness(1.05) saturate(1.1);
+}
+.psi{
+  transition: transform .6s cubic-bezier(.23,1,.32,1), filter .4s;
+  transform-origin: center center;
+}
+/* About section images 3D tilt */
+.aimg-main img, .aimg-acc img{
+  transition: transform .5s cubic-bezier(.23,1,.32,1), box-shadow .4s;
+}
+.aimg-main:hover img{
+  transform: rotateY(-8deg) rotateX(3deg) scale(1.04);
+  box-shadow: 24px 24px 60px rgba(44,26,14,.2);
+}
+.aimg-acc:hover img{
+  transform: rotateY(8deg) rotateX(-3deg) scale(1.04);
+  box-shadow: -16px 20px 50px rgba(44,26,14,.18);
+}
+/* Hero floating cards 3D */
+.dcard{
+  transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s;
+}
+.dcard:hover{
+  transform: rotateY(-10deg) rotateX(5deg) translateY(-8px) scale(1.06) !important;
+  box-shadow: 16px 24px 48px rgba(44,26,14,.25) !important;
+  animation-play-state: paused;
+}
+
+
+/* ══ FLOATING 3D CARD SYSTEM ══════════════════════════════════════════════════ */
+
+/* Section layout */
+.cat-section{
+  padding: 0 clamp(1rem,5vw,4rem) 3.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.cat-head{
+  padding: .8rem 0 1.4rem;
+  border-bottom: 1.5px solid var(--bdr);
+  margin-bottom: 2rem;
+}
+.cat-head h3{
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 400;
+  color: var(--esp);
+  font-style: italic;
+}
+.cat-head h3 span{
+  font-family: var(--sans);
+  font-size: .65rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--mist);
+  font-style: normal;
+  margin-left: 1rem;
+  vertical-align: middle;
+}
+
+/* Horizontal scroll row */
+.float-row{
+  display: flex;
+  gap: 1.8rem;
+  overflow-x: auto;
+  padding: 2rem 0 3rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.float-row::-webkit-scrollbar{ display:none }
+
+/* THE FLOATING 3D CARD */
+.fcard{
+  flex-shrink: 0;
+  width: 220px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: visible;
+  position: relative;
+  scroll-snap-align: start;
+  transform-style: preserve-3d;
+  transform: perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px);
+  transition: transform .08s linear, box-shadow .3s;
+  box-shadow:
+    0 20px 40px rgba(44,26,14,.12),
+    0 8px 16px rgba(44,26,14,.08),
+    0 2px 4px rgba(44,26,14,.06);
+  animation: floatCard 4s ease-in-out infinite;
+  cursor: none;
+}
+.fcard:nth-child(2){ animation-delay: -.6s }
+.fcard:nth-child(3){ animation-delay: -1.2s }
+.fcard:nth-child(4){ animation-delay: -1.8s }
+.fcard:nth-child(5){ animation-delay: -2.4s }
+.fcard:nth-child(6){ animation-delay: -3s }
+
+@keyframes floatCard{
+  0%,100%{ transform: perspective(800px) translateY(0px) rotateX(2deg); }
+  50%{     transform: perspective(800px) translateY(-14px) rotateX(-2deg); }
+}
+
+/* Shine overlay for 3D gloss */
+.fcard-shine{
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,.4) 0%, transparent 50%, rgba(255,255,255,.05) 100%);
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity .3s;
+}
+
+/* Image area */
+.fcard-img{
+  width: 100%;
+  height: 200px;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg3);
+}
+.fcard-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .5s cubic-bezier(.23,1,.32,1);
+  display: block;
+}
+.fcard:hover .fcard-img img{
+  transform: scale(1.08);
+}
+
+/* Badge */
+.fcard-bdg{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .25rem .65rem;
+  border-radius: 20px;
+  z-index: 5;
+}
+.fcard-bdg.sig{ background: var(--esp); color: var(--gld2); }
+.fcard-bdg.new{ background: #1A4A8A; color: #fff; }
+.fcard-bdg.fave{ background: #8A1A1A; color: #fff; }
+.fcard-bdg.must{ background: var(--car); color: #fff; }
+.fcard-bdg.seas{ background: #2E7D32; color: #fff; }
+
+/* Info block */
+.fcard-info{
+  padding: 1rem 1rem .9rem;
+  background: #fff;
+  border-radius: 0 0 20px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.fcard-name{
+  font-family: var(--serif);
+  font-size: .88rem;
+  font-weight: 500;
+  color: var(--esp);
+  line-height: 1.3;
+  margin-bottom: .35rem;
+}
+.fcard-price{
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--car);
+  font-weight: 400;
+  margin-bottom: .25rem;
+}
+.fcard-tag{
+  font-size: .6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mist);
+  background: var(--bg2);
+  display: inline-block;
+  padding: .15rem .55rem;
+  border-radius: 20px;
+}
+
+/* 3D shadow under card — depth illusion */
+.fcard::after{
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 10%;
+  width: 80%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(44,26,14,.2) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: shadowFloat 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+.fcard:nth-child(2)::after{ animation-delay: -.6s }
+.fcard:nth-child(3)::after{ animation-delay: -1.2s }
+
+@keyframes shadowFloat{
+  0%,100%{ transform: scaleX(1);   opacity:.5; }
+  50%{     transform: scaleX(.75); opacity:.25; }
+}
+
+/* ── CUSTOM CURSOR — fully visible dark brown dot + ring ──── */
+@media(pointer:fine){ *{ cursor:none !important } }
+@media(pointer:coarse){ #dot,#dotR{ display:none !important } }
+
+#dot{
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #2C1A0E;
+  pointer-events: none;
+  z-index: 999999;
+  top: 0; left: 0;
+  transform: translate(-50%,-50%);
+  transition: width .15s, height .15s, background .2s;
+}
+#dotR{
+  position: fixed;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid #2C1A0E;
+  pointer-events: none;
+  z-index: 999998;
+  top: 0; left: 0;
+  transform: translate(-50%,-50%);
+  opacity: .55;
+}
+/* Cursor grows on hover over interactive elements */
+a:hover ~ #dot, button:hover ~ #dot{ width:14px; height:14px; background: var(--car); }
+
 </style>
 </head>
 <body>
@@ -335,7 +614,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
       (212) 555-0190
     </a>
-    <a href="#contact" class="bsl">Leave Feedback</a>
+    <a href="https://www.google.com/maps/place/Caffe+Paradiso/@40.7220038,-73.9943176,17z" target="_blank" class="bsl">Leave Feedback</a>
     <div class="hbg" id="hbg" onclick="toggleNav()"><span></span><span></span><span></span></div>
   </div>
 </header>
@@ -343,7 +622,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
 <!-- ═══ HERO ════════════════════════════════════════════════════ -->
 <section class="hero" id="top">
   <div class="hbg-img">
-    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1800&q=90&auto=format&fit=crop" alt="Caffe Paradiso — 202B Elizabeth Street, Nolita NYC"/>
+    <img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="Caffe Paradiso interior"/>
   </div>
   <div class="hc">
     <div class="hpill">
@@ -359,22 +638,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
       <a href="tel:+12125550190" class="bhg">Call Us Now</a>
     </div>
   </div>
-  <!-- Floating drink cards -->
-  <div class="hdrinks">
-    <div class="hdc">
-      <img src="https://images.unsplash.com/photo-1572286258217-40f1e5a8b09a?w=400&q=85&auto=format&fit=crop" alt="Brown Butter Latte"/>
-      <div class="hdcl">Brown Butter Latte<div class="hdcp">$7</div></div>
-    </div>
-    <div class="hdc">
-      <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&q=85&auto=format&fit=crop" alt="Strawberry Matcha"/>
-      <div class="hdcl">Strawberry Matcha<div class="hdcp">$9.50</div></div>
-    </div>
-    <div class="hdc">
-      <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=85&auto=format&fit=crop" alt="Cream Top"/>
-      <div class="hdcl">Paradiso Cream Top<div class="hdcp">$6.50</div></div>
-    </div>
-  </div>
-  <div class="scue">Scroll to explore</div>
+  <div class="scue">— Scroll to explore</div>
 </section>
 
 <!-- ═══ TRUST BAR ════════════════════════════════════════════════ -->
@@ -388,379 +652,219 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
   <div class="ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>(212) 555-0190</div>
 </div>
 
-<!-- ═══ FULL MENU — FRONT PAGE FEATURE ══════════════════════════ -->
+<!-- ═══ FULL MENU — HORIZONTAL FLOATING 3D CARDS ══════════════ -->
 <section id="menu" class="menu-sec">
   <div class="menu-intro rv">
-    <div>
-      <p class="slbl">Our Full Menu</p>
-      <h2 class="stit">Everything we <em>craft</em></h2>
-      <div class="grl"></div>
-      <p class="sbod" style="max-width:480px">Every drink made to order. Every ingredient chosen with care. Here's exactly what's waiting for you at the bar.</p>
+    <p class="slbl">Our Full Menu</p>
+    <h2 class="stit">Everything we <em>craft</em></h2>
+    <div class="grl"></div>
+    <p class="sbod">Every drink made to order. Every ingredient chosen with care.</p>
+  </div>
+
+  <!-- SIGNATURE DRINKS -->
+  <div class="cat-section rv">
+    <div class="cat-head"><h3>Signature Drinks <span>On tap &amp; made to order</span></h3></div>
+    <div class="float-row">
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/3879495/pexels-photo-3879495.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Salted Brown Butter Oat Latte"/></div>
+        <div class="fcard-bdg sig">★ Star</div>
+        <div class="fcard-info"><div class="fcard-name">Salted Brown Butter Oat Latte</div><div class="fcard-price">$7</div><div class="fcard-tag">On Tap</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/4829098/pexels-photo-4829098.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Paradiso Cream Top"/></div>
+        <div class="fcard-info"><div class="fcard-name">Paradiso Cream Top</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Iced</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/7474227/pexels-photo-7474227.jpeg?auto=compress&cs=tinysrgb&w=600" alt="White Chocolate Shakerato"/></div>
+        <div class="fcard-bdg new">New</div>
+        <div class="fcard-info"><div class="fcard-name">White Chocolate Shakerato</div><div class="fcard-price">$7.50</div><div class="fcard-tag">Iced</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="The Magic Cortado"/></div>
+        <div class="fcard-info"><div class="fcard-name">The Magic (Cortado)</div><div class="fcard-price">$5</div><div class="fcard-tag">Hot</div></div>
+      </div>
     </div>
   </div>
 
-  <div class="mgrid">
-
-    <!-- ── SIGNATURE DRINKS ── -->
-    <div class="cat-head">
-      <h3>Signature Drinks <span>On tap &amp; made to order</span></h3>
-    </div>
-
-    <div class="mc rv">
-      <div class="mc-img">
-        <div class="mc-bdg sig">★ Our Star</div>
-        <img src="https://images.unsplash.com/photo-1572286258217-40f1e5a8b09a?w=600&q=85&auto=format&fit=crop" alt="Salted Brown Butter Oat Latte" loading="lazy"/>
-        <div class="mc-img::after"></div>
+  <!-- ESPRESSO BAR -->
+  <div class="cat-section rv">
+    <div class="cat-head"><h3>Espresso Bar <span>Classic &amp; crafted</span></h3></div>
+    <div class="float-row">
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/6802983/pexels-photo-6802983.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Espresso"/></div>
+        <div class="fcard-info"><div class="fcard-name">Espresso</div><div class="fcard-price">$4</div><div class="fcard-tag">Hot</div></div>
       </div>
-      <div class="mc-body">
-        <h3>Salted Brown Butter Oat Latte</h3>
-        <p>Our legendary tap latte — rich, nutty, perfectly balanced. Creamy foam top. The drink that started the line around the block.</p>
-        <div class="mc-ft"><span class="mpr">$7</span><span class="mtag">On Tap</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/1813466/pexels-photo-1813466.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Macchiato"/></div>
+        <div class="fcard-info"><div class="fcard-name">Macchiato</div><div class="fcard-price">$4.25</div><div class="fcard-tag">Hot</div></div>
       </div>
-    </div>
-
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=85&auto=format&fit=crop" alt="Paradiso Cream Top" loading="lazy"/>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/1251175/pexels-photo-1251175.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Americano"/></div>
+        <div class="fcard-info"><div class="fcard-name">Americano</div><div class="fcard-price">$4.25</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
-      <div class="mc-body">
-        <h3>Paradiso Cream Top</h3>
-        <p>Iced americano with thick cream that sinks as you sip it. Suspended elegance in every glass.</p>
-        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Iced</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/350478/pexels-photo-350478.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cappuccino"/></div>
+        <div class="fcard-info"><div class="fcard-name">Cappuccino</div><div class="fcard-price">$5</div><div class="fcard-tag">Hot</div></div>
       </div>
-    </div>
-
-    <div class="mc rv d2">
-      <div class="mc-img">
-        <div class="mc-bdg new">New</div>
-        <img src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600&q=85&auto=format&fit=crop" alt="White Chocolate Shakerato" loading="lazy"/>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Latte"/></div>
+        <div class="fcard-info"><div class="fcard-name">Latte</div><div class="fcard-price">$6</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
-      <div class="mc-body">
-        <h3>White Chocolate Shakerato</h3>
-        <p>Whipped espresso with shaved white chocolate. Photo-worthy by design — unforgettable by taste.</p>
-        <div class="mc-ft"><span class="mpr">$7.50</span><span class="mtag">Iced</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/3551717/pexels-photo-3551717.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mocha Latte"/></div>
+        <div class="fcard-info"><div class="fcard-name">Mocha Latte</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
     </div>
+  </div>
 
-    <div class="mc rv d3">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=85&auto=format&fit=crop" alt="The Magic Cortado" loading="lazy"/>
+  <!-- SPECIALTY ICED -->
+  <div class="cat-section rv">
+    <div class="cat-head"><h3>Specialty Iced <span>Cold &amp; crafted</span></h3></div>
+    <div class="float-row">
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/8472862/pexels-photo-8472862.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Strawberry Coconut Matcha"/></div>
+        <div class="fcard-bdg fave">Fan Fave</div>
+        <div class="fcard-info"><div class="fcard-name">Strawberry &amp; Coconut Matcha</div><div class="fcard-price">$9.50</div><div class="fcard-tag">Iced</div></div>
       </div>
-      <div class="mc-body">
-        <h3>The Magic (Cortado)</h3>
-        <p>Equal parts ristretto and steamed milk. Small in size, enormous in character. Pure espresso philosophy.</p>
-        <div class="mc-ft"><span class="mpr">$5</span><span class="mtag">Hot</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/4829098/pexels-photo-4829098.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Caramel Espresso Mousse"/></div>
+        <div class="fcard-info"><div class="fcard-name">Caramel &amp; Espresso Mousse</div><div class="fcard-price">$9.50</div><div class="fcard-tag">Iced</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/5946626/pexels-photo-5946626.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Iced Chai Latte"/></div>
+        <div class="fcard-info"><div class="fcard-name">Iced Chai Latte</div><div class="fcard-price">$7.50</div><div class="fcard-tag">Iced</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/4820769/pexels-photo-4820769.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cold Brew"/></div>
+        <div class="fcard-info"><div class="fcard-name">Cold Brew Iced Coffee</div><div class="fcard-price">$6</div><div class="fcard-tag">Iced</div></div>
       </div>
     </div>
+  </div>
 
-    <!-- ── ESPRESSO BAR ── -->
-    <div class="cat-head">
-      <h3>Espresso Bar <span>Classic &amp; crafted</span></h3>
-    </div>
-
-    <div class="mc rv">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600&q=85&auto=format&fit=crop" alt="Espresso" loading="lazy"/>
+  <!-- MATCHA & TEA -->
+  <div class="cat-section rv">
+    <div class="cat-head"><h3>Matcha &amp; Tea <span>Ceremonial grade</span></h3></div>
+    <div class="float-row">
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/3796426/pexels-photo-3796426.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Matcha Latte"/></div>
+        <div class="fcard-info"><div class="fcard-name">Matcha Latte</div><div class="fcard-price">$8.50</div><div class="fcard-tag">Hot / Iced</div></div>
       </div>
-      <div class="mc-body">
-        <h3>Espresso</h3>
-        <p>A perfect double shot — bold, syrupy, and aromatic. The foundation of everything we do here.</p>
-        <div class="mc-ft"><span class="mpr">$4</span><span class="mtag">Hot</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/905485/pexels-photo-905485.jpeg?auto=compress&cs=tinysrgb&w=600" alt="London Fog"/></div>
+        <div class="fcard-info"><div class="fcard-name">London Fog</div><div class="fcard-price">$4.75</div><div class="fcard-tag">Hot</div></div>
       </div>
-    </div>
-
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1504630083234-14187a9df0f5?w=600&q=85&auto=format&fit=crop" alt="Macchiato" loading="lazy"/>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/1638280/pexels-photo-1638280.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hot Tea"/></div>
+        <div class="fcard-info"><div class="fcard-name">Hot Tea</div><div class="fcard-price">$4.50</div><div class="fcard-tag">Hot</div></div>
       </div>
-      <div class="mc-body">
-        <h3>Macchiato</h3>
-        <p>Espresso marked with a dollop of foamy milk. Sharp, strong, and beautifully simple.</p>
-        <div class="mc-ft"><span class="mpr">$4.25</span><span class="mtag">Hot</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d2">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?w=600&q=85&auto=format&fit=crop" alt="Americano" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Americano</h3>
-        <p>Espresso diluted with hot water for a long, clean finish. Hot or iced — both excellent.</p>
-        <div class="mc-ft"><span class="mpr">$4.25</span><span class="mtag">Hot / Iced</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Iced Tea"/></div>
+        <div class="fcard-info"><div class="fcard-name">Iced Tea</div><div class="fcard-price">$4.50</div><div class="fcard-tag">Iced</div></div>
       </div>
     </div>
+  </div>
 
-    <div class="mc rv d3">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=85&auto=format&fit=crop" alt="Cappuccino" loading="lazy"/>
+  <!-- HOT SPECIALS -->
+  <div class="cat-section rv">
+    <div class="cat-head"><h3>Hot Specials <span>Seasonal &amp; warming</span></h3></div>
+    <div class="float-row">
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/3734195/pexels-photo-3734195.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hot Chocolate"/></div>
+        <div class="fcard-bdg must">Must Try</div>
+        <div class="fcard-info"><div class="fcard-name">Hot Chocolate</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Hot</div></div>
       </div>
-      <div class="mc-body">
-        <h3>Cappuccino</h3>
-        <p>Espresso topped with a thick crown of steamed and velvety milk foam. A classic done right.</p>
-        <div class="mc-ft"><span class="mpr">$5</span><span class="mtag">Hot</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/324028/pexels-photo-324028.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Drip Coffee"/></div>
+        <div class="fcard-info"><div class="fcard-name">Drip Coffee</div><div class="fcard-price">$4.50</div><div class="fcard-tag">Hot</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/5946610/pexels-photo-5946610.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hot Apple Cider"/></div>
+        <div class="fcard-bdg seas">Seasonal</div>
+        <div class="fcard-info"><div class="fcard-name">Hot Apple Cider &amp; Cream</div><div class="fcard-price">$6.50</div><div class="fcard-tag">Seasonal</div></div>
       </div>
     </div>
+  </div>
 
-    <div class="mc rv">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=85&auto=format&fit=crop" alt="Latte" loading="lazy"/>
+  <!-- FRESH JUICES -->
+  <div class="cat-section rv">
+    <div class="cat-head"><h3>Fresh-Pressed Juices <span>Cold-pressed daily</span></h3></div>
+    <div class="float-row">
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/1346347/pexels-photo-1346347.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Greens Juice"/></div>
+        <div class="fcard-info"><div class="fcard-name">Greens Juice</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
       </div>
-      <div class="mc-body">
-        <h3>Latte</h3>
-        <p>Smooth espresso with steamed milk. Add caramel, hazelnut, or vanilla (+$0.45). Hot or iced.</p>
-        <div class="mc-ft"><span class="mpr">$6</span><span class="mtag">Hot / Iced</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/775032/pexels-photo-775032.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Avocado Greens"/></div>
+        <div class="fcard-info"><div class="fcard-name">Avocado Greens</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/3174835/pexels-photo-3174835.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Roots with Ginger"/></div>
+        <div class="fcard-info"><div class="fcard-name">Roots with Ginger</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mango Turmeric Lemon"/></div>
+        <div class="fcard-info"><div class="fcard-name">Mango Turmeric Lemon</div><div class="fcard-price">$11</div><div class="fcard-tag">Cold-Pressed</div></div>
       </div>
     </div>
+  </div>
 
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=600&q=85&auto=format&fit=crop" alt="Mocha Latte" loading="lazy"/>
+  <!-- PASTRIES -->
+  <div class="cat-section rv">
+    <div class="cat-head"><h3>Pastries &amp; Bites <span>Fresh daily</span></h3></div>
+    <div class="float-row">
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/2135/food-france-morning-breakfast.jpg?auto=compress&cs=tinysrgb&w=600" alt="Butter Croissant"/></div>
+        <div class="fcard-info"><div class="fcard-name">Butter Croissant</div><div class="fcard-price">$4</div><div class="fcard-tag">Daily Fresh</div></div>
       </div>
-      <div class="mc-body">
-        <h3>Mocha Latte</h3>
-        <p>Espresso, chocolate, and steamed milk in perfect harmony. Rich, warming, and deeply satisfying.</p>
-        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Hot / Iced</span></div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Seasonal Cookie"/></div>
+        <div class="fcard-info"><div class="fcard-name">Seasonal Cookie</div><div class="fcard-price">$3.50</div><div class="fcard-tag">Rotating</div></div>
+      </div>
+      <div class="fcard" data-tilt>
+        <div class="fcard-shine"></div>
+        <div class="fcard-img"><img src="https://images.pexels.com/photos/1603901/pexels-photo-1603901.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Baguette Sandwich"/></div>
+        <div class="fcard-info"><div class="fcard-name">Baguette Sandwich</div><div class="fcard-price">From $8</div><div class="fcard-tag">Daily Fresh</div></div>
       </div>
     </div>
+  </div>
 
-    <!-- ── SPECIALTY ICED ── -->
-    <div class="cat-head">
-      <h3>Specialty Iced <span>Cold &amp; crafted</span></h3>
-    </div>
-
-    <div class="mc rv">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=85&auto=format&fit=crop" alt="Strawberry Coconut Matcha" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <div class="mc-bdg sig">Fan Fave</div>
-        <h3>Strawberry &amp; Coconut Matcha</h3>
-        <p>Ceremonial matcha with fresh strawberry and coconut milk. Vibrant, layered, and dangerously drinkable.</p>
-        <div class="mc-ft"><span class="mpr">$9.50</span><span class="mtag">Iced</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=85&auto=format&fit=crop" alt="Caramel Espresso Mousse" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Caramel &amp; Espresso Mousse</h3>
-        <p>Silky caramel and airy espresso mousse over ice. Indulgent, rich, and Instagram-ready.</p>
-        <div class="mc-ft"><span class="mpr">$9.50</span><span class="mtag">Iced</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d2">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1622484212850-eb596d769edc?w=600&q=85&auto=format&fit=crop" alt="Iced Chai Latte" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Iced Chai Latte</h3>
-        <p>Spiced tea concentrate blended with cold milk over ice. Warm spices, cool sip. A crowd favorite.</p>
-        <div class="mc-ft"><span class="mpr">$7.50</span><span class="mtag">Iced</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d3">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=85&auto=format&fit=crop" alt="Cold Brew" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Cold Brew Iced Coffee</h3>
-        <p>Brooklyn Roasting Co. cold brew — steeped 18 hours for a smooth, full-bodied coffee without the bitterness.</p>
-        <div class="mc-ft"><span class="mpr">$6</span><span class="mtag">Iced</span></div>
-      </div>
-    </div>
-
-    <!-- ── MATCHA & TEA ── -->
-    <div class="cat-head">
-      <h3>Matcha &amp; Tea <span>Ceremonial grade · hand-selected</span></h3>
-    </div>
-
-    <div class="mc rv">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=600&q=85&auto=format&fit=crop" alt="Matcha Latte" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Matcha Latte</h3>
-        <p>Ceremonial-grade matcha whisked with steamed milk of your choice. Earthy, calming, and beautifully green.</p>
-        <div class="mc-ft"><span class="mpr">$8.50</span><span class="mtag">Hot / Iced</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=85&auto=format&fit=crop" alt="London Fog" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>London Fog</h3>
-        <p>Earl grey tea with steamed milk and a touch of vanilla. Delicate, floral, and wonderfully comforting.</p>
-        <div class="mc-ft"><span class="mpr">$4.75</span><span class="mtag">Hot</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d2">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=85&auto=format&fit=crop" alt="Hot Tea" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Hot Tea</h3>
-        <p>Sencha Green, Mint, English Breakfast, Earl Grey, Ceylon Mango Decaf, or Chamomile. Brewed to perfection.</p>
-        <div class="mc-ft"><span class="mpr">$4.50</span><span class="mtag">Hot</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d3">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1567922045116-2a00fae2ed03?w=600&q=85&auto=format&fit=crop" alt="Iced Tea" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Iced Tea</h3>
-        <p>Pure Black or Decaf Lemon &amp; Ginger Mint over ice. Refreshing and light with every sip.</p>
-        <div class="mc-ft"><span class="mpr">$4.50</span><span class="mtag">Iced</span></div>
-      </div>
-    </div>
-
-    <!-- ── HOT SPECIALS ── -->
-    <div class="cat-head">
-      <h3>Hot Specials <span>Seasonal &amp; warming</span></h3>
-    </div>
-
-    <div class="mc rv">
-      <div class="mc-img">
-        <div class="mc-bdg new">Must Try</div>
-        <img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=600&q=85&auto=format&fit=crop" alt="Hot Chocolate" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Hot Chocolate</h3>
-        <p>Dark chocolate ganache, cinnamon, vanilla, marshmallow. Rich, thick, and completely irresistible. "The hot cocoa looks insane!"</p>
-        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Hot</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=85&auto=format&fit=crop" alt="Drip Coffee" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Drip Coffee</h3>
-        <p>Brooklyn Roasting Co. single-origin drip. Clean, bright, and beautifully roasted — the no-frills classic done exceptionally.</p>
-        <div class="mc-ft"><span class="mpr">$4.50</span><span class="mtag">Hot</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d2">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=85&auto=format&fit=crop" alt="Hot Apple Cider" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Hot Apple Cider &amp; Cream</h3>
-        <p>Organic cider, pumpkin pie spice, whipped cream, and nutmeg. Pure autumn in a cup.</p>
-        <div class="mc-ft"><span class="mpr">$6.50</span><span class="mtag">Seasonal</span></div>
-      </div>
-    </div>
-
-    <!-- ── FRESH JUICES ── -->
-    <div class="cat-head">
-      <h3>Fresh-Pressed Juices <span>Cold-pressed daily</span></h3>
-    </div>
-
-    <div class="mc rv">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=85&auto=format&fit=crop" alt="Greens Juice" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Greens Juice</h3>
-        <p>Cucumber, Celery, Lemon. Crisp, clean, and genuinely refreshing — not a drop of compromise.</p>
-        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=600&q=85&auto=format&fit=crop" alt="Avocado Greens" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Avocado Greens</h3>
-        <p>Apple, Celery, Cucumber, Banana, Avocado, Spinach, Lemon, Kale, Spirulina, Matcha. The green machine.</p>
-        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d2">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1630450202872-e0829c9d6172?w=600&q=85&auto=format&fit=crop" alt="Roots with Ginger" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Roots with Ginger</h3>
-        <p>Apple, Lemon, Ginger, Beet. Earthy-sweet with a warming ginger kick — vivid magenta in your glass.</p>
-        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d3">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&q=85&auto=format&fit=crop" alt="Mango Turmeric Lemon" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Mango Turmeric Lemon</h3>
-        <p>Mango, Lemon, Monk Fruit, Turmeric. Tropical, bright, anti-inflammatory, and strikingly golden.</p>
-        <div class="mc-ft"><span class="mpr">$11</span><span class="mtag">Cold-Pressed</span></div>
-      </div>
-    </div>
-
-    <!-- ── PASTRIES ── -->
-    <div class="cat-head">
-      <h3>Pastries &amp; Bites <span>Fresh daily from local bakeries</span></h3>
-    </div>
-
-    <div class="mc rv">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=85&auto=format&fit=crop" alt="Butter Croissant" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Butter Croissant</h3>
-        <p>Flaky, buttery, golden-brown perfection. Pairs beautifully with any espresso drink on our menu.</p>
-        <div class="mc-ft"><span class="mpr">$4</span><span class="mtag">Daily Fresh</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d1">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=85&auto=format&fit=crop" alt="Seasonal Cookie" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Seasonal Cookie</h3>
-        <p>Double chocolate chip &amp; sea salt, peanut butter, cranberry oatmeal, or black and white. Rotating daily.</p>
-        <div class="mc-ft"><span class="mpr">$3.50</span><span class="mtag">Rotating</span></div>
-      </div>
-    </div>
-
-    <div class="mc rv d2">
-      <div class="mc-img">
-        <img src="https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=600&q=85&auto=format&fit=crop" alt="Baguette Sandwich" loading="lazy"/>
-      </div>
-      <div class="mc-body">
-        <h3>Baguette Sandwich</h3>
-        <p>Fresh baguette with rotating daily fillings — locally sourced, generously filled. "Honestly very good baguette sandwiches."</p>
-        <div class="mc-ft"><span class="mpr">From $8</span><span class="mtag">Daily Fresh</span></div>
-      </div>
-    </div>
-
-  </div><!-- /mgrid -->
 </section>
-
 <!-- ═══ ABOUT ══════════════════════════════════════════════════ -->
 <section id="about" class="about-bg">
   <div class="awrap">
     <div class="aimgs rv">
       <div class="aim">
-        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&q=88&auto=format&fit=crop" alt="Caffe Paradiso interior — green onyx bar, Nolita NYC" loading="lazy"/>
+        <img crossorigin="anonymous" referrerpolicy="no-referrer-when-downgrade" src="https://images.pexels.com/photos/1855214/pexels-photo-1855214.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Caffe Paradiso interior — green onyx bar, Nolita NYC" loading="lazy"/>
       </div>
       <div class="aia">
-        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80&auto=format&fit=crop" alt="Barista at work" loading="lazy"/>
+        <img crossorigin="anonymous" referrerpolicy="no-referrer-when-downgrade" src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=1800&q=90" alt="Barista at work" loading="lazy"/>
       </div>
       <div class="ait">"Worth every minute of the wait."</div>
     </div>
@@ -781,10 +885,10 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
 
 <!-- ═══ PHOTO STRIP ════════════════════════════════════════════ -->
 <div class="pstrip">
-  <div class="psc rv"><img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80&auto=format&fit=crop" alt="Coffee bar" loading="lazy" class="psi"/><div class="pscl">Our Bar</div></div>
-  <div class="psc rv d1"><img src="https://images.unsplash.com/photo-1572286258217-40f1e5a8b09a?w=600&q=80&auto=format&fit=crop" alt="Signature latte" loading="lazy" class="psi"/><div class="pscl">Signature Latte</div></div>
-  <div class="psc rv d2"><img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80&auto=format&fit=crop" alt="Matcha" loading="lazy" class="psi"/><div class="pscl">Strawberry Matcha</div></div>
-  <div class="psc rv d3"><img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=80&auto=format&fit=crop" alt="Espresso" loading="lazy" class="psi"/><div class="pscl">The Craft</div></div>
+  <div class="psc rv"><img crossorigin="anonymous" referrerpolicy="no-referrer-when-downgrade" src="https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Coffee bar" loading="lazy" class="psi"/><div class="pscl">Our Bar</div></div>
+  <div class="psc rv d1"><img crossorigin="anonymous" referrerpolicy="no-referrer-when-downgrade" src="https://images.pexels.com/photos/3879495/pexels-photo-3879495.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Signature latte" loading="lazy" class="psi"/><div class="pscl">Signature Latte</div></div>
+  <div class="psc rv d2"><img crossorigin="anonymous" referrerpolicy="no-referrer-when-downgrade" src="https://images.pexels.com/photos/8472862/pexels-photo-8472862.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Matcha" loading="lazy" class="psi"/><div class="pscl">Strawberry Matcha</div></div>
+  <div class="psc rv d3"><img crossorigin="anonymous" referrerpolicy="no-referrer-when-downgrade" src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Espresso" loading="lazy" class="psi"/><div class="pscl">The Craft</div></div>
 </div>
 
 <!-- ═══ REVIEWS — MIXED RATINGS ═════════════════════════════════ -->
@@ -937,7 +1041,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
         </a>
         <div class="cdi" style="margin-top:.8rem">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <a href="/cdn-cgi/l/email-protection#452d2029292a05262423232035243724212c362a6b2b3c26"><span class="__cf_email__" data-cfemail="2e464b4242416e4d4f48484b5e4f5c4f4a475d410040574d">[email&#160;protected]</span></a>
+          
         </div>
         <div class="cdi">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1044,7 +1148,7 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
       <h4>Contact</h4>
       <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>202B Elizabeth St, Nolita, NY 10012</div>
       <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+12125550190">(212) 555-0190</a></div>
-      <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="/cdn-cgi/l/email-protection#96fef3fafaf9d6f5f7f0f0f3e6f7e4f7f2ffe5f9b8f8eff5"><span class="__cf_email__" data-cfemail="345c5158585b74575552525144554655505d475b1a5a4d57">[email&#160;protected]</span></a></div>
+      <div class="fci"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
     </div>
   </div>
   <div class="fbot">
@@ -1059,12 +1163,106 @@ section{padding:clamp(3.5rem,7vw,7rem) clamp(1.5rem,5vw,5rem);position:relative}
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14a16 16 0 006.29 6.29l.41-.41a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
     Call Now
   </a>
-  <a href="#contact" class="mob-fb">Leave Feedback</a>
+  <a href="https://www.google.com/maps/place/Caffe+Paradiso/@40.7220038,-73.9943176,17z" target="_blank" class="mob-fb">Leave Feedback</a>
 </div>
 
 <!-- ═══ SCRIPTS ════════════════════════════════════════════════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── Dot cursor — never changes (cursor:default on everything handles pointer)
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+// ── 3D scroll reveal for menu cards ────────────────────────────────
+(function(){
+  const cards = document.querySelectorAll('.mc');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>{ e.target.classList.add('revealed'); }, i*60);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.12});
+  cards.forEach(c=>obs.observe(c));
+})();
+
+// ── Mouse-track 3D tilt on menu cards ────────────────────────────
+document.querySelectorAll('.mc').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width-.5)*18;
+    const y=-((e.clientY-r.top)/r.height-.5)*14;
+    card.style.transform=`rotateY(${x}deg) rotateX(${y}deg) translateY(-10px) scale(1.03)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='';
+  });
+});
+
+
+// ── ENHANCED 3D TILT on floating cards ─────────────────────────
+document.querySelectorAll('.fcard[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r  = card.getBoundingClientRect();
+    const cx = r.left + r.width  / 2;
+    const cy = r.top  + r.height / 2;
+    const dx = (e.clientX - cx) / (r.width  / 2);
+    const dy = (e.clientY - cy) / (r.height / 2);
+    const rotY =  dx * 20;
+    const rotX = -dy * 15;
+    card.style.animation = 'none';
+    card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-16px) scale(1.04)`;
+    card.style.boxShadow = `${-rotY}px ${20 + Math.abs(rotX)*2}px 50px rgba(44,26,14,.22), 0 8px 20px rgba(44,26,14,.12)`;
+    // Move shine based on mouse
+    const shine = card.querySelector('.fcard-shine');
+    if(shine) shine.style.background = `radial-gradient(circle at ${((dx+1)/2)*100}% ${((dy+1)/2)*100}%, rgba(255,255,255,.45) 0%, transparent 60%)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.animation = '';
+    card.style.transform = '';
+    card.style.boxShadow = '';
+    const shine = card.querySelector('.fcard-shine');
+    if(shine) shine.style.background = '';
+  });
+});
+
+// ── CURSOR with smooth spring tracking ─────────────────────────
+const DOT  = document.getElementById('dot');
+const DOTR = document.getElementById('dotR');
+if(DOT && DOTR){
+  let mx=window.innerWidth/2, my=window.innerHeight/2;
+  let rx=mx, ry=my;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    DOT.style.left = mx + 'px';
+    DOT.style.top  = my + 'px';
+  });
+  (function loop(){
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
+    DOTR.style.left = rx + 'px';
+    DOTR.style.top  = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+  // Scale on hover
+  document.querySelectorAll('a, button, .fcard').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      DOT.style.width  = '16px';
+      DOT.style.height = '16px';
+      DOT.style.background = '#B8731A';
+      DOTR.style.width  = '48px';
+      DOTR.style.height = '48px';
+      DOTR.style.opacity = '.35';
+    });
+    el.addEventListener('mouseleave', () => {
+      DOT.style.width  = '10px';
+      DOT.style.height = '10px';
+      DOT.style.background = '#2C1A0E';
+      DOTR.style.width  = '32px';
+      DOTR.style.height = '32px';
+      DOTR.style.opacity = '.55';
+    });
+  });
+}
+
+</script><script>
+// ── Dot cursor — never changes (cursor:none on everything handles pointer)
 const DOT=document.getElementById('dot'),DOTR=document.getElementById('dotR');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;DOT.style.left=mx+'px';DOT.style.top=my+'px'});
@@ -1210,4 +1408,3 @@ function init(){
   beans=[];
   for(let i=0;i<90;i++){
     const z=Math.random();
-    beans.push({x:Math.random()*W,baseY:Math.random()*H*4,z,sz:3+z*10+Math.random()*4,ang:Math.random()*Math.PI*2,rot:(Math.random()-.5)*.006,dx:(Math.random()-.5)*.2*z,al:.035+z*.18+Math.random()*.08,ph:Math.random()*Math.PI*2,wAmp:6+Math.random()*12,wSpd:.004+Math.ra
